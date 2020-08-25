@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  * @Date 2020-07-06
  */
-//@Component
+@Component
 public class RedisUtil {
 
-    //@Resource
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
     /**
      * 指定缓存失效时间
