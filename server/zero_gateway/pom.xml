@@ -12,6 +12,12 @@
     <artifactId>zero_gateway</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.zero.server</groupId>
+            <artifactId>zero_common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
         <!--eureka client-->
         <dependency>
