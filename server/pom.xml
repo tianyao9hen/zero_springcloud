@@ -13,6 +13,8 @@
         <module>zero_gateway</module>
         <module>zero_auth</module>
         <module>zero_common</module>
+        <module>zero_auth_api</module>
+        <module>zero_redis</module>
     </modules>
 
     <parent>
@@ -36,6 +38,29 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--shiro-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${org.apache.shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${org.apache.shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${org.apache.shiro.version}</version>
+            </dependency>
+            <!-- shiro+redis缓存插件 -->
+            <dependency>
+                <groupId>org.crazycake</groupId>
+                <artifactId>shiro-redis</artifactId>
+                <version>2.4.2.1-RELEASE</version>
+            </dependency>
+
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
@@ -50,6 +75,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.2.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
