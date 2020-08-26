@@ -43,8 +43,8 @@ spring:
         max-wait: -1
 
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
+# mybatis:
+#   mapper-locations: classpath:mapper/*.xml
 
 eureka:
   client:
@@ -58,9 +58,12 @@ eureka:
     prefer-ip-address: true
     hostname: ${spring.application.name}
 
-# 日志级别server/
+# 日志级别server
 logging:
   file: target/app.log
   level:
     root: WARN
-    com.demo.springcloud: DEBUG
+    com.cloud.zero: DEBUG
+
+jwt:
+  header: JWTHeaderName

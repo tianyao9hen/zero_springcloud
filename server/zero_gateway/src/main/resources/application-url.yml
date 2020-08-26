@@ -1,0 +1,12 @@
+# 白名单
+whitelist:
+  urlset:
+    /auth/login,
+    /auth/logout
+
+  fileset:
+    css,
+    js,
+    ico,
+    jpg,
+    png

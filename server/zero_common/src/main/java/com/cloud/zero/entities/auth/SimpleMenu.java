@@ -6,18 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * AuthMenu
+ * SimpleMenu
  *
  * @author pxf
  * @version v1.0
- * @Date 2020-08-25
+ * @Date 2020-08-26
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class AuthMenu extends CommonEntity {
+@NoArgsConstructor
+public class SimpleMenu extends CommonEntity {
 
-    private static final long serialVersionUID = -7348054588828405028L;
+    private static final long serialVersionUID = 4942425959555309853L;
 
     private Long menuPid;
     private Boolean isLeaf;

@@ -18,18 +18,18 @@ spring:
         locator:
           enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名进行路由
       # 配置服务路由
-#      routes:
-#        - id: springcloud-demo1 # 路由的ID,没有固定规则但要求唯一，建议配合服务名
-#          uri: lb://SPRINGCLOUD-DEMO1 # 匹配后提供服务的路由地址，设置的服务id 。lb指负载均衡，默认是轮询
-#          predicates:
-#            - Path=/demo1/** # Path： 路径相匹配的进行路由
-#        - id: springcloud-auth
-#          uri: lb://SPRINGCLOUD-AUTH
-#          predicates:
-#            - Path=/auth/**
+      routes:
+        - id: zero-resource # 路由的ID,没有固定规则但要求唯一，建议配合服务名
+          uri: lb://ZERO-RESOURCE # 匹配后提供服务的路由地址，设置的服务id 。lb指负载均衡，默认是轮询
+          predicates:
+            - Path=/res/** # Path： 路径相匹配的进行路由
+        - id: zero-auth
+          uri: lb://ZERO-AUTH
+          predicates:
+            - Path=/auth/**
   # 引入外部yml文件
-#  profiles:
-#    include: url
+  profiles:
+    include: url
   # 重复的bean进行覆盖
   main:
     allow-bean-definition-overriding: true

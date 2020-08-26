@@ -1,6 +1,7 @@
 package com.cloud.zero.entities.common;
 
 import com.cloud.zero.enumType.FwWebError;
+import com.cloud.zero.exception.ServiceReturnException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,16 @@ public class ResultConstant implements Serializable{
 
     public void setError(FwWebError fwWebError){
         setError(fwWebError.code,fwWebError.msg);
+    }
+    public void setError(Exception e){
+        success = false;
+        if(e instanceof ServiceReturnException){
+            this.errorCode = ((ServiceReturnException)e).getCode();
+            this.error = ((ServiceReturnException) e).getMsg();
+        }else{
+            this.errorCode = "未知错误";
+            this.error = e.getMessage();
+        }
     }
 
     private void setError(String errorCode,Object error){

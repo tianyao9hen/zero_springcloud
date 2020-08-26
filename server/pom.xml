@@ -15,6 +15,7 @@
         <module>zero_common</module>
         <module>zero_auth_api</module>
         <module>zero_redis</module>
+        <module>zero_resource</module>
     </modules>
 
     <parent>
