@@ -1,18 +1,34 @@
 package com.cloud.zero.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import com.cloud.zero.constant.BaseConstant;
+import com.cloud.zero.entities.auth.SimpleUserEntity;
+import com.cloud.zero.entities.common.ResultContent;
+import com.cloud.zero.enumType.FwWebError;
+import com.cloud.zero.service.LoginCheckApi;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * AuthFilter
@@ -21,9 +37,12 @@ import java.util.Set;
  * @version v1.0
  * @Date 2020-08-26
  */
-//@Component
+@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter,Ordered {
+
+    @Autowired
+    private LoginCheckApi loginCheckApi;
 
     @Value("${whitelist.urlset}")
     private Set<String> urlSet;
@@ -54,6 +73,34 @@ public class AuthFilter implements GlobalFilter,Ordered {
                 return chain.filter(exchange);
             }
         }
+
+        //获取header中的token
+        HttpHeaders headers = request.getHeaders();
+        List<String> tokenList = headers.get(BaseConstant.JWT_HEADER_NAME);
+        if(tokenList==null || tokenList.size()<=0){
+            //没有token认为没有登陆
+            DataBuffer dataBuffer = setResponse(FwWebError.NO_LOGIN, response);
+            return response.writeWith(Mono.just(dataBuffer));
+        }
+
+        //通过token得到userEntity对象
+        String token = tokenList.get(0);
+        //这里选择使用userEntity作为返回值，原因是因为，使用通用的ResultContant因为包含了Object类型的属性无法json序列化
+        //如果返回userEntity则认为用户已登陆并且存在该权限，如果没有返回，则用户未登陆或没有权限，直接跳转到登陆页面
+        SimpleUserEntity userEntity = loginCheckApi.checkUser(token, path);
+        //将用户对象转换成json格式保存到请求头中，转发到其他服务
+        String json = JSONObject.toJSONString(userEntity);
+        try {
+            json = URLEncoder.encode(json, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String finalJson = json;
+        Consumer<HttpHeaders> httpHeaders = httpHeader -> {
+            httpHeader.set("nowUser", finalJson);
+        };
+        ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate().headers(httpHeaders).build();
+        exchange.mutate().request(serverHttpRequest).build();
         return chain.filter(exchange);
     }
 
@@ -61,4 +108,18 @@ public class AuthFilter implements GlobalFilter,Ordered {
     public int getOrder() {
         return 0;
     }
+
+    /**
+     *@Description 当鉴权失败时设置响应对象，响应鉴权失败
+     *@Param
+     *@Return
+     */
+    private DataBuffer setResponse(FwWebError fwWebError,ServerHttpResponse response){
+        ResultContent resultConstant= new ResultContent();
+        resultConstant.setError(fwWebError);
+        String json = JSONObject.toJSONString(resultConstant);
+        DataBuffer buffer = response.bufferFactory().wrap(json.getBytes());
+        return buffer;
+    }
+
 }

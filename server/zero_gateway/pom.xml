@@ -18,6 +18,12 @@
             <artifactId>zero_common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.zero.server</groupId>
+            <artifactId>zero_auth_api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
         <!--eureka client-->
         <dependency>

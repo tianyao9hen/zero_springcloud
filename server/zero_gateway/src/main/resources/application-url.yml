@@ -2,7 +2,6 @@
 whitelist:
   urlset:
     /auth/login,
-    /auth/logout
 
   fileset:
     css,

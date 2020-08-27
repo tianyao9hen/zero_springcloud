@@ -44,4 +44,6 @@ public class BaseConstant {
      *@Return
      */
     public static final Long LOGIN_JWT_TIMEOUT_MINUTE = LOGIN_JWT_TIMEOUT / 60;//120L;
+
+    public static final String JWT_HEADER_NAME = "JWTHeaderName";
 }
