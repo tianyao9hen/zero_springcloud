@@ -1,0 +1,49 @@
+{
+  "list": [{
+    "date": "2019",
+    "money": "1199711元",
+    "name": "林丽",
+    "address": "A栋1-10楼",
+    "tung": "A栋",
+    "layer": "1-2层",
+    "tel": "123-8765-2345",
+    "companyName": "山东华盛集团"
+
+  }, {
+    "date": "2019",
+    "money": "1198709元",
+    "name": "文敏",
+    "address": "A栋11-20楼",
+    "tung": "A栋",
+    "layer": "3-4层",
+    "tel": "123-8765-2345",
+    "companyName": "山东华丽集团"
+  }, {
+    "date": "2019",
+    "money": "2199608元",
+    "name": "杨秀兰",
+    "address": "B栋",
+    "tung": "A栋",
+    "layer": "5-6层",
+    "tel": "123-8765-2345",
+    "companyName": "山东丰立集团"
+  }, {
+    "date": "2019",
+    "money": "2197806元",
+    "name": "魏强",
+    "address": "C栋",
+    "tung": "A栋",
+    "layer": "7-8层",
+    "tel": "123-8765-2345",
+    "companyName": "山东承德集团"
+  }, {
+    "date": "2019",
+    "money": "2197707元",
+    "name": "石秀兰",
+    "address": "D栋",
+    "tung": "A栋",
+    "layer": "9-10层",
+    "tel": "123-8765-2345",
+    "companyName": "山东飞骑集团"
+  }]
+}

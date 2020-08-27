@@ -1,0 +1,78 @@
+{ "icon":"el-icon-lx-people", "name":"业主管理", "id":"800201904005", "label":"HOT",
+  "childs":
+  [
+    { "name":"业主信息", "href":"listOwner", "seq":"1", "isShow":"Y" },
+    { "name":"业主成员", "href":"listOwnerMember", "seq":"2", "isShow":"Y" }
+  ],
+  "seq":"4"
+}, 
+{ "icon":"el-icon-lx-rechargefill", "name":"费用管理", "id":"802019103010680005", "label":"",
+  "childs":
+  [
+    { "name":"费用项设置", "href":"feeConfigManage", "seq":"1", "isShow":"Y" },
+    { "name":"房屋收费", "href":"roomCreateFee", "seq":"2", "isShow":"Y" },
+    { "name":"车位收费", "href":"parkingSpaceCreateFee", "seq":"3", "isShow":"Y" },
+    { "name":"缴费清单", "href":"payFeeManage", "seq":"4", "isShow":"Y" }
+  ],
+  "seq":"6"
+},
+{ "icon":"el-icon-lx-tag", "name":"智慧服务", "id":"800201904007", "label":"TOP",
+  "childs":
+  [
+    { "name":"发布公告", "href":"noticeManage", "seq":"1", "isShow":"Y" },
+    { "name":"发布广告", "href":"advertManage", "seq":"2", "isShow":"Y" },
+    { "name":"访客登记", "href":"visitManage", "seq":"3", "isShow":"Y" },
+    { "name":"投诉建议", "href":"complaintManage", "seq":"4", "isShow":"Y" },
+    { "name":"审核投诉单", "href":"myAuditComplaints", "seq":"6", "isShow":"Y" },
+    { "name":"投诉历史单", "href":"myAuditHistoryComplaints", "seq":"7", "isShow":"Y" }
+  ],
+  "seq":"7"
+},
+{ "icon":"el-icon-lx-location", "name":"智慧停车", "id":"802020012374230001", "label":"",
+  "childs":
+  [
+    { "name":"车位信息", "href":"/listParkingSpace", "seq":"2", "isShow":"Y" },
+    { "name":"停车场管理", "href":"parkingAreaManage", "seq":"1", "isShow":"Y" },
+    { "name":"在场车辆", "href":"/carInManage", "seq":"5", "isShow":"Y" },
+    { "name":"进场记录", "href":"/carInoutManage", "seq":"3", "isShow":"Y" },
+    { "name":"剩余车位", "href":"/remainingParkingSpace", "seq":"4", "isShow":"Y" }
+  ],
+  "seq":"8"
+},
+{ "icon":"el-icon-lx-global", "name":"报修管理", "id":"802019102057730004", "label":"",
+  "childs":
+  [
+    { "name":"派单信息", "href":"repairDispatchManage", "seq":"1", "isShow":"Y" },
+    { "name":"我的维修单", "href":"myRepairDispatchManage", "seq":"2", "isShow":"Y" }
+  ],
+  "seq":"9"
+}, 
+{ "icon":"el-icon-lx-group", "name":"组织管理", "id":"800201904001", "label":"",
+  "childs":
+  [
+    { "name":"员工信息", "href":"staff", "seq":"2", "isShow":"Y" },
+    { "name":"组织信息", "href":"orgManage", "seq":"1", "isShow":"Y" },
+    { "name":"员工文化", "href":"staffCulture", "seq":"8", "isShow":"Y" }
+  ],
+  "seq":"10"
+}, 
+  
+{ "icon":"el-icon-lx-shop", "name":"采购管理", "id":"800201906011", "label":"",
+  "childs":[
+    { "name":"采购申请", "href":"purchaseApplyManage", "seq":"3", "isShow":"Y" },
+    { "name":"物品信息", "href":"resourceStoreManage", "seq":"1", "isShow":"Y" },
+    { "name":"物品出库", "href":"itemOutManage", "seq":"4", "isShow":"Y" },
+    { "name":"入库", "href":"resourceEnterManage", "seq":"7", "isShow":"Y" }
+  ],
+  "seq":"11"
+},
+{ "icon":"el-icon-lx-recordfill", "name":"设备管理", "id":"802019110855900043", "label":"NEW",
+  "childs":
+  [
+    { "name":"设备门禁", "href":"machineManage", "seq":"1", "isShow":"Y" },
+    { "name":"开门记录", "href":"machineRecordManage", "seq":"3", "isShow":"Y" },
+    { "name":"访客留影", "href":"machineVistorPhotoManage", "seq":"4", "isShow":"Y" }
+  ],
+  "seq":"12"
+},
+{ "icon": "el-icon-lx-home", "href": "icon", "name": "自定义图标", "id":"800201904001", "label":"" }

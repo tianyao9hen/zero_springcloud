@@ -1,0 +1,507 @@
+[
+  {
+    "icon": "el-icon-lx-home",
+    "href": "/dashboard",
+    "name": "系统首页",
+    "id": "800201904004",
+    "label": ""
+  },
+  {
+    "icon": "el-icon-lx-settings",
+    "name": "系统管理",
+    "id": "802019091604450001",
+    "label": "",
+    "childs": [
+      {
+        "name": "角色管理",
+        "href": "/staffPrivilege",
+        "seq": "2",
+        "isShow": "Y"
+      },
+      {
+        "name": "部门管理",
+        "href": "/dept",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "菜单管理",
+        "href": "/menu",
+        "seq": "5",
+        "isShow": "Y"
+      },
+      {
+        "name": "字典管理",
+        "href": "/dict",
+        "seq": "6",
+        "isShow": "Y"
+      },
+      {
+        "name": "系统日志",
+        "href": "/systemLog",
+        "seq": "6",
+        "isShow": "Y"
+      },
+      {
+        "name": "通知公告",
+        "href": "/notice",
+        "seq": "6",
+        "isShow": "Y"
+      },
+      {
+        "name": "参数设置",
+        "href": "/params",
+        "seq": "6",
+        "isShow": "Y"
+      },
+      {
+        "name": "运行状态",
+        "href": "/runStatus",
+        "seq": "6",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "1"
+  },
+  {
+    "icon": "el-icon-lx-friend",
+    "name": "物业人员管理",
+    "id": "802019091604450001",
+    "label": "",
+    "childs": [
+      {
+        "name": "人员信息管理",
+        "href": "/personInfoManage",
+        "seq": "2",
+        "isShow": "Y"
+      },
+      {
+        "name": "人员培训管理",
+        "href": "/personTrain",
+        "seq": "5",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "2"
+  },
+  {
+    "icon": "el-icon-lx-group",
+    "name": "园区业主管理",
+    "id": "802019091604450001",
+    "label": "",
+    "childs": [
+      {
+        "name": "业主信息管理",
+        "href": "/tenantInfo",
+        "seq": "2",
+        "isShow": "Y"
+      },
+      {
+        "name": "业主服务管理",
+        "href": "/tenantService",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "3"
+  },
+  {
+    "icon": "el-icon-lx-apps",
+    "name": "资产管理",
+    "id": "800201904006",
+    "label": "",
+    "childs": [
+      {
+        "name": "采购入库管理",
+        "href": "/purchase",
+        "seq": "3",
+        "isShow": "Y"
+      },
+      {
+        "name": "资产信息管理",
+        "href": "/assetsInfo",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "资产历史信息",
+        "href": "/assetsHistry",
+        "seq": "2",
+        "isShow": "Y"
+      },
+      {
+        "name": "资产出库管理",
+        "href": "/assetIssue",
+        "seq": "2",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "4"
+  },
+  {
+    "icon": "el-icon-lx-location",
+    "name": "巡检管理",
+    "id": "802020020977260001",
+    "label": "",
+    "childs": [
+      {
+        "name": "巡检点",
+        "href": "/PatrolData",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "巡检路线",
+        "href": "/PatrolRoute",
+        "seq": "5",
+        "isShow": "Y"
+      },
+      {
+        "name": "巡检计划",
+        "href": "/PatrolPlan",
+        "seq": "10",
+        "isShow": "Y"
+      },
+      {
+        "name": "巡检任务",
+        "href": "/PatrolJob",
+        "seq": "15",
+        "isShow": "Y"
+      },
+      {
+        "name": "问题列表",
+        "href": "/PatrolQuestion",
+        "seq": "20",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "5"
+  },
+  {
+    "icon": "el-icon-lx-text",
+    "name": "信息公告",
+    "id": "802020020977260001",
+    "label": "",
+    "childs": [
+      {
+        "name": "信息公告资源",
+        "href": "/infoNotice",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "历史信息记录",
+        "href": "/infoHistoryRecord",
+        "seq": "4",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "6"
+  },
+  {
+    "icon": "el-icon-lx-searchlist",
+    "name": "报表分析",
+    "id": "802020020977260001",
+    "label": "",
+    "childs": [
+      {
+        "name": "人员信息",
+        "href": "/personInfo",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "费用信息",
+        "href": "/costInfo",
+        "seq": "2",
+        "isShow": "Y"
+      },
+      {
+        "name": "材料设备信息",
+        "href": "/materialMachine",
+        "seq": "3",
+        "isShow": "Y"
+      },
+      {
+        "name": "投诉与评价记录",
+        "href": "/complaintAndEvaluate",
+        "seq": "4",
+        "isShow": "Y"
+      },
+      {
+        "name": "园区环境信息",
+        "href": "/parAndkEnvironmental",
+        "seq": "4",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "7"
+  },
+  {
+    "icon": "el-icon-lx-calendar",
+    "name": "装修管理",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "装修登记",
+        "href": "/renovationRegister",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "装修计划",
+        "href": "/renovationPlan",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "装修过程记录",
+        "href": "/renovationRrocessRecord",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "装修结算",
+        "href": "/renovationCalculation",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "装修历史记录",
+        "href": "/renovationHistoryRecord",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "8"
+  },
+  {
+    "icon": "el-icon-lx-recharge",
+    "name": "缴费管理",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "缴费提醒",
+        "href": "/payManage",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "缴费记录",
+        "href": "/payRecord",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "欠费管理",
+        "href": "/payCalculation",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "9"
+  },
+  {
+    "icon": "el-icon-lx-service",
+    "name": "在线调度",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "报修管理",
+        "href": "/repairM",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "确认与评价",
+        "href": "/confirmAndEvaluation",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "10"
+  },
+  {
+    "icon": "el-icon-lx-vipcard",
+    "name": "投诉管理",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "投诉信息",
+        "href": "/complaintInfo",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "投诉结果反馈",
+        "href": "/complaintInfoResult",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "11"
+  },
+  {
+    "icon": "el-icon-lx-rank",
+    "name": "基础服务管理",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "访客接待管理",
+        "href": "/visitorReception",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "停车管理",
+        "href": "/parkingManage",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "安防管理",
+        "href": "/securityManage",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "维修管理",
+        "href": "/repairManage",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "应急管理",
+        "href": "/preventionEmergency",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "园区环境管理",
+        "href": "/parkEnvironmental",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "会议办公管理",
+        "href": "/meetingManage",
+        "seq": "2",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "12"
+  },
+  {
+    "icon": "el-icon-lx-peoplefill",
+    "name": "VIP商务服务",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "VIP历史记录",
+        "href": "/vipHistoryRecord",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "VIP人员派遣",
+        "href": "/vipPersonnelAssign",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "13"
+  },
+  {
+    "icon": "el-icon-lx-shop",
+    "name": "配送服务",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "配送信息登记",
+        "href": "/DistributionInformationRegister",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "配送派单",
+        "href": "/distributeLeaflets",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "14"
+  },
+  {
+    "icon": "el-icon-lx-qrcode",
+    "name": "租赁服务",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "租赁信息展示",
+        "href": "/leaseInfoShow",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "租赁历史记录",
+        "href": "/leaseHistoryRecode",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "15"
+  },
+  {
+    "icon": "el-icon-lx-weibo",
+    "name": "开发专用",
+    "id": "800201904005",
+    "label": "HOT",
+    "childs": [
+      {
+        "name": "自定义图标",
+        "href": "/Icon",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "上传文件",
+        "href": "/Upload",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "编辑内容",
+        "href": "/VueEditor",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "Markdown编辑器",
+        "href": "/Markdown",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "可拖拽列表",
+        "href": "/DragList",
+        "seq": "1",
+        "isShow": "Y"
+      },
+      {
+        "name": "可拖拽Dialog",
+        "href": "/DragDialog",
+        "seq": "1",
+        "isShow": "Y"
+      }
+    ],
+    "seq": "16"
+  }
+]
