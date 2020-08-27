@@ -87,7 +87,20 @@ public class AuthFilter implements GlobalFilter,Ordered {
         String token = tokenList.get(0);
         //这里选择使用userEntity作为返回值，原因是因为，使用通用的ResultContant因为包含了Object类型的属性无法json序列化
         //如果返回userEntity则认为用户已登陆并且存在该权限，如果没有返回，则用户未登陆或没有权限，直接跳转到登陆页面
-        SimpleUserEntity userEntity = loginCheckApi.checkUser(token, path);
+        SimpleUserEntity userEntity = null;
+        try{
+            userEntity = loginCheckApi.checkUser(token, path);
+        }catch(Exception e){
+            //鉴权失败
+            DataBuffer dataBuffer = setResponse(FwWebError.NO_PERMISSION, response);
+            return response.writeWith(Mono.just(dataBuffer));
+        }
+        if(userEntity == null || userEntity.getId() == null){
+            //鉴权失败
+            DataBuffer dataBuffer = setResponse(FwWebError.NO_PERMISSION, response);
+            return response.writeWith(Mono.just(dataBuffer));
+        }
+
         //将用户对象转换成json格式保存到请求头中，转发到其他服务
         String json = JSONObject.toJSONString(userEntity);
         try {

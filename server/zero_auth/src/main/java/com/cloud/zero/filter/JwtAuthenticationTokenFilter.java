@@ -43,7 +43,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
             if(token != null && !StringUtils.isEmpty(token)){
                 AuthUserEntity jwtUser = JwtUtils.getObjectFromToken(token, publicKey, AuthUserEntity.class);
                 AuthUserEntity userEntity = null;
-                if(jwtUser.getUsername()!= null){
+                if(jwtUser!=null && jwtUser.getUsername()!= null){
                     //查询userEntity
                     userEntity = userDetailsService.loadUserByUsername(jwtUser.getUsername());
                 }
