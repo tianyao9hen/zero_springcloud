@@ -91,6 +91,34 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
         return enabled;
     }
 
+    /**
+    * @Description 构造方法，通过simpleUserEntity创建AuthUserEntity
+    * @Param userEntity
+    * @Return
+    */
+    public AuthUserEntity(SimpleUserEntity userEntity){
+        setId(userEntity.getId());
+        setUsername(userEntity.getUsername());
+        setPassword(userEntity.getPassword());
+        setPhone(userEntity.getPhone());
+        setEmail(userEntity.getEmail());
+        setOrgId(userEntity.getOrgId());
+        setCreateTime(userEntity.getCreateTime());
+        setEnabled(userEntity.getEnabled());
+        setToken(userEntity.getToken());
+        List<AuthMenu> authMenuList = new ArrayList<>();
+        List<SimpleMenu> simpleMenuList = userEntity.getAuthorities();
+        for (SimpleMenu simpleMenu : simpleMenuList) {
+            AuthMenu authMenu = new AuthMenu(simpleMenu);
+            authMenuList.add(authMenu);
+        }
+        setAuthorities(authMenuList);
+    }
+
+    /**
+     * @Description 得到封装好的SimpleUserEntity对象
+     * @Return com.cloud.zero.entities.auth.SimpleUserEntity
+     */
     public SimpleUserEntity packageSimpleUser(){
         SimpleUserEntity userEntity = new SimpleUserEntity();
         userEntity.setId(getId());
@@ -106,6 +134,10 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
         return userEntity;
     }
 
+    /**
+     * @Description 得到该用户的所有menu对象
+     * @Return java.util.List<com.cloud.zero.entities.auth.SimpleMenu>
+     */
     public List<SimpleMenu> packageSimpleMenu(){
         List<SimpleMenu> menuList = new ArrayList<>();
         for (AuthMenu authority : authorities) {

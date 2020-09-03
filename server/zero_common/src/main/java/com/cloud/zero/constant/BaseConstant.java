@@ -32,11 +32,18 @@ public class BaseConstant {
     public static final String LOGIN_REDIS_PRE = "JWT_USER_TOKEN:";
 
     /**
+     * @Description 
+     * @Param jwt超时时间
+     * @Return
+     */
+    public static final Long LOGIN_JWT_TIMEOUT = 7200L;
+
+    /**
      *@Description
      *@Param 保存在redis中的用户信息有效时长，单位秒
      *@Return
      */
-    public static final Long LOGIN_JWT_TIMEOUT = 7200L;
+    public static final Long LOGIN_REDIS_TIMEOUT = LOGIN_JWT_TIMEOUT;
 
     /**
      *@Description

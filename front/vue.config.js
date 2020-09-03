@@ -29,6 +29,7 @@
         resolve: {
             alias: {
                 'assets': '@/assets',
+                'network': '@/network',
                 'components': '@/components',
                 'mixins': '@/mixins',
                 'router': '@/router',

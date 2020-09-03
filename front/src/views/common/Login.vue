@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import {login} from 'network/auth';
+
 export default {
   data: function () {
     return {
@@ -66,8 +68,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          sessionStorage.setItem('ms_username', this.ruleForm.username);
-          this.$router.push('/homePage1');
+          login(this.ruleForm.username,this.ruleForm.password).then(res => {
+              console.log(res);
+          }).catch(err => {
+              console.log(err);
+          })
+          //sessionStorage.setItem('ms_username', this.ruleForm.username);
+          //this.$router.push('/homePage1');
           //sessionStorage.setItem('setUserType', this.ruleForm.type);
           //this.$store.dispatch("setUserType", this.ruleForm.type);
           /*if ((this.ruleForm.type + '').trim() == '0') {

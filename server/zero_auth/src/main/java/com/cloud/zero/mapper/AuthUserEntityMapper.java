@@ -16,7 +16,7 @@ import java.util.List;
  * @Date 2020-08-18
  */
 @Mapper
-public interface MyUserDetailMapper {
+public interface AuthUserEntityMapper {
 
     //根据username查询用户信息
     @Select("SELECT id,username,password,enabled FROM sys_user u WHERE u.username = #{username}")

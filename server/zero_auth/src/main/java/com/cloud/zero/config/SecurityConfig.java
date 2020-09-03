@@ -96,18 +96,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**","/fonts/**","/img/**","/js/**");
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource(){
+/*    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        //允许的跨域访问地址
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8001","http://localhost:7001"));
-        //允许的跨域访问方法类型
-        configuration.setAllowedMethods(Arrays.asList("POST","GET"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS"));
         configuration.applyPermitDefaultValues();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
+        source.registerCorsConfiguration("*//**", configuration);
         return source;
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder(){

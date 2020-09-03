@@ -52,3 +52,12 @@ eureka:
     instance-id: ${eureka.instance.hostname}:${server.port}
     prefer-ip-address: true
     hostname: ${spring.application.name}
+
+cors:
+  origin-url:
+    http://localhost:8080,
+  method:
+    GET,
+    POST,
+    PUT,
+    DELETE

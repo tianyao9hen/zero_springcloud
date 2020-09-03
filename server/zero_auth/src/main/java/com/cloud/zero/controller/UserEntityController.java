@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public class UserEntityController {
 
     /**
      * @Description 登陆
-     * @param
+     * @param user 登陆信息
      * @Return com.cloud.zero.entities.common.ResultConstant
      */
     @PostMapping("/login")
@@ -66,7 +67,7 @@ public class UserEntityController {
     }
 
     /**
-     * @Description 返回检查鉴权的结果，到这里已经鉴权完成了
+     * @Description 返回检查鉴权的结果，到这里其实已经鉴权完成了
      * @param token
      * @param checkUrl
      * @Return com.cloud.zero.entities.auth.SimpleUserEntity

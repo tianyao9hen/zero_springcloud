@@ -19,6 +19,7 @@ public enum FwWebError {
     WRONG_LOGNNAME_OR_LOGINPASSWORD("AUTH_E_03","用户名或密码输入有误！"),
     NO_PERMISSION("AUTH_E_04","用户权限不足！"),
     ENCRYPTION_ERRORS("AUTH_E_05","加密错误，请重新登陆！"),
+    REFRESH_LOGIN("AUTH_E_06","请重新登陆！"),
 
     //redis
     REDIS_WRONG("REDIS_E_01","redis保存错误！");

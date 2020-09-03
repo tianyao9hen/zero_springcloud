@@ -4,8 +4,10 @@ import com.cloud.zero.constant.BaseConstant;
 import com.cloud.zero.entities.AuthUserEntity;
 import com.cloud.zero.enumType.FwWebError;
 import com.cloud.zero.exception.ServiceReturnException;
+import com.cloud.zero.service.AuthService;
 import com.cloud.zero.service.JwtAuthService;
 import com.cloud.zero.utils.JwtUtils;
+import com.cloud.zero.utils.RedisUtil;
 import com.cloud.zero.utils.RsaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,7 @@ import java.security.PublicKey;
 
 /**
  * JwtAuthServiceImpl
+ * 涉及到生成和更新jwt token的权限Service
  *
  * @author pxf
  * @version v1.0
@@ -34,6 +37,15 @@ public class JwtAuthServiceImpl implements JwtAuthService {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private AuthService authRedisService;
+
+    /**
+     * @Description 生成jwt的登陆方法
+     * @Param username
+     * @Param password
+     * @Return com.cloud.zero.entities.AuthUserEntity
+     */
     @Override
     public AuthUserEntity login(String username, String password) throws Exception {
         try{
@@ -57,10 +69,18 @@ public class JwtAuthServiceImpl implements JwtAuthService {
         //返回user数据
         userEntity.setToken(token);
         userEntity.setPassword("");
+
+        //将用户信息保存到redis
+        String result = authRedisService.login(userEntity.packageSimpleUser());
         return userEntity;
     }
 
 
+    /**
+     * @Description 刷新token
+     * @Param oldToken
+     * @Return java.lang.String
+     */
     @Override
     public String refreshToken(String oldToken) throws Exception {
         PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);

@@ -2,9 +2,15 @@ package com.cloud.zero.filter;
 
 import com.cloud.zero.constant.BaseConstant;
 import com.cloud.zero.entities.AuthUserEntity;
+import com.cloud.zero.entities.auth.SimpleMenu;
+import com.cloud.zero.entities.auth.SimpleUserEntity;
+import com.cloud.zero.enumType.FwWebError;
+import com.cloud.zero.exception.ServiceReturnException;
+import com.cloud.zero.service.AuthService;
 import com.cloud.zero.service.impl.UserDetailsServiceImpl;
 import com.cloud.zero.utils.JwtUtils;
 import com.cloud.zero.utils.RsaUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,33 +34,34 @@ import java.security.PublicKey;
  * @Date 2020-08-27
  */
 @Component
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    AuthService authRedisService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        try{
+        try {
             String token = request.getParameter("token");
             PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
-            if(token != null && !StringUtils.isEmpty(token)){
+            if (token != null && !StringUtils.isEmpty(token)) {
                 AuthUserEntity jwtUser = JwtUtils.getObjectFromToken(token, publicKey, AuthUserEntity.class);
-                AuthUserEntity userEntity = null;
-                if(jwtUser!=null && jwtUser.getUsername()!= null){
+                if (jwtUser != null && jwtUser.getUsername() != null) {
                     //查询userEntity
-                    userEntity = userDetailsService.loadUserByUsername(jwtUser.getUsername());
-                }
-                if(userEntity!=null){
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userEntity,null,userEntity.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    SimpleUserEntity simpleUserEntity= authRedisService.loadUserByUsername(jwtUser.getUsername(),token);
+                    if(simpleUserEntity != null){
+                        AuthUserEntity userEntity = new AuthUserEntity(simpleUserEntity);
+                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userEntity, null, userEntity.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    }
                 }
             }
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
         }catch(Exception e){
-            e.printStackTrace();
+            log.info(e.getMessage(),e);
         }
     }
 }

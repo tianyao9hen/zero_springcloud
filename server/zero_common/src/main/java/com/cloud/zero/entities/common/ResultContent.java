@@ -39,7 +39,7 @@ public class ResultContent implements Serializable{
             this.errorCode = ((ServiceReturnException)e).getCode();
             this.error = ((ServiceReturnException) e).getMsg();
         }else{
-            this.errorCode = "未知错误";
+            this.errorCode = "unknown error";
             this.error = e.getMessage();
         }
     }

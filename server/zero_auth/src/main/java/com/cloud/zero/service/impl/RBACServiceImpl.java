@@ -1,7 +1,17 @@
 package com.cloud.zero.service.impl;
 
+import com.cloud.zero.constant.BaseConstant;
+import com.cloud.zero.entities.AuthMenu;
 import com.cloud.zero.entities.AuthUserEntity;
+import com.cloud.zero.service.AuthMenuService;
+import com.cloud.zero.service.AuthService;
+import com.cloud.zero.service.JwtAuthService;
 import com.cloud.zero.service.RBACService;
+import com.cloud.zero.utils.JwtUtils;
+import com.cloud.zero.utils.RsaUtils;
+import com.fasterxml.jackson.databind.ser.Serializers;
+import org.bouncycastle.jcajce.provider.asymmetric.RSA;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -9,12 +19,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
 /**
  * RBACServiceImpl
+ * 自定义的鉴权逻辑
  *
  * @author pxf
  * @version v1.0
@@ -23,25 +36,59 @@ import java.util.List;
 @Service("rbacService")
 public class RBACServiceImpl implements RBACService {
 
+    @Autowired
+    private AuthService authRedisService;
+
+    @Autowired
+    private JwtAuthService jwtAuthService;
+
+    @Autowired
+    private AuthMenuService authMenuService;
+
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
-        String token = request.getParameter("token");
-        String path = request.getParameter("checkUrl");
-        Object principal = authentication.getPrincipal();
-        if(principal instanceof UserDetails){
-            AuthUserEntity userDetails = ((AuthUserEntity)principal);
-            List<GrantedAuthority> authorityList =
-                    AuthorityUtils.commaSeparatedStringToAuthorityList(path);
-            Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-            //鉴权
-            for (GrantedAuthority grantedAuthority : userDetails.getAuthorities()) {
-                if(grantedAuthority.getAuthority().equals(authorityList.get(0).getAuthority())) {
+        try {
+            String token = request.getParameter("token");
+            String path = request.getParameter("checkUrl");
+            Object principal = authentication.getPrincipal();
+            if(principal instanceof UserDetails){
+                AuthUserEntity userDetails = ((AuthUserEntity)principal);
+
+                //得到path和用户权限
+                List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(path);
+
+                //查询所有的权限，如果根本权限表中没有这个权限，则认为不设限制
+                List<AuthMenu> authMenus = authMenuService.queryMenuByUrl(authorityList.get(0).getAuthority());
+                if(authMenus == null) {
                     request.setAttribute("nowUser",userDetails);
                     return true;
                 }
+                Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+                
+                //鉴权
+                for (GrantedAuthority grantedAuthority : authorities) {
+                    if(grantedAuthority.getAuthority().equals(authorityList.get(0).getAuthority())) {
+                        //鉴权通过
+                        PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
+                        Long tokenDuration = JwtUtils.getTokenDuration(token, publicKey);
+                        if(tokenDuration <= 0L) return false;
+                        if(tokenDuration <= (BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE / 2)){
+                            //token有效期已经过半
+                            //重新创建token
+                            String newToken = jwtAuthService.refreshToken(token);
+                            userDetails.setToken(newToken);
+                            //重新向redis中添加数据
+                            authRedisService.login(userDetails.packageSimpleUser());
+                        }
+
+                        request.setAttribute("nowUser",userDetails);
+                        return true;
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //System.out.println("---------------------这里是鉴权的地方---- "+token+" --" +path+ "---------------------");
         return false;
     }
 }

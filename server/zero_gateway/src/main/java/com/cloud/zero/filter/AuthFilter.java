@@ -92,12 +92,13 @@ public class AuthFilter implements GlobalFilter,Ordered {
             userEntity = loginCheckApi.checkUser(token, path);
         }catch(Exception e){
             //鉴权失败
+            log.error(e.getMessage(),e);
             DataBuffer dataBuffer = setResponse(FwWebError.NO_PERMISSION, response);
             return response.writeWith(Mono.just(dataBuffer));
         }
         if(userEntity == null || userEntity.getId() == null){
             //鉴权失败
-            DataBuffer dataBuffer = setResponse(FwWebError.NO_PERMISSION, response);
+            DataBuffer dataBuffer = setResponse(FwWebError.REFRESH_LOGIN, response);
             return response.writeWith(Mono.just(dataBuffer));
         }
 
@@ -114,6 +115,12 @@ public class AuthFilter implements GlobalFilter,Ordered {
         };
         ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate().headers(httpHeaders).build();
         exchange.mutate().request(serverHttpRequest).build();
+
+        //将当前的token保存再响应头中
+        String nowToken = userEntity.getToken();
+        exchange.getResponse().getHeaders().set(BaseConstant.JWT_HEADER_NAME,nowToken);
+
+        //通过过滤器
         return chain.filter(exchange);
     }
 
@@ -127,6 +134,7 @@ public class AuthFilter implements GlobalFilter,Ordered {
      *@Param
      *@Return
      */
+
     private DataBuffer setResponse(FwWebError fwWebError,ServerHttpResponse response){
         ResultContent resultConstant= new ResultContent();
         resultConstant.setError(fwWebError);

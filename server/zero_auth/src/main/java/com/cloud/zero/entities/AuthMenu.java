@@ -31,6 +31,19 @@ public class AuthMenu extends CommonEntity implements GrantedAuthority {
     private Integer level;
     private Boolean status;
 
+    public AuthMenu(SimpleMenu simpleMenu){
+        setId(simpleMenu.getId());
+        setMenuPid(simpleMenu.getMenuPid());
+        setIsLeaf(simpleMenu.getIsLeaf());
+        setMenuName(simpleMenu.getMenuName());
+        setUrl(simpleMenu.getUrl());
+        setIcon(simpleMenu.getIcon());
+        setIconColor(simpleMenu.getIconColor());
+        setSort(simpleMenu.getSort());
+        setLevel(simpleMenu.getLevel());
+        setStatus(simpleMenu.getStatus());
+    }
+
     @Override
     public String getAuthority() {
         return url;

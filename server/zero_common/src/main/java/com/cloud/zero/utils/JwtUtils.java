@@ -146,6 +146,22 @@ public class JwtUtils {
     }
 
     /**
+     * @Description 获取距离令牌过期的剩余分钟
+     * @Param token
+     * @Param publicKey
+     * @Return java.lang.Long
+     */
+    public static Long getTokenDuration(String token,PublicKey publicKey){
+        Claims claims = getClaimsFromToken(token, publicKey);
+        if(claims == null){
+            return 0L;
+        }
+        long lastTime = claims.getExpiration().getTime();
+        long nowTime = System.currentTimeMillis();
+        return (lastTime - nowTime) / 1000L /60L;
+    }
+
+    /**
      * @Description 刷新令牌
      * @param token 原令牌
      * @Return java.lang.String 新令牌
