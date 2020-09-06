@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import dailog from './modules/dailog'
+import auth from './modules/auth'
 
 Vue.use(Vuex);
 export default () => {
@@ -9,23 +10,6 @@ export default () => {
             userType: undefined,
             propertyMenu: [
                 {"icon": "el-icon-lx-home", "href": "/homePage1", "name": "系统首页", "id": "800201904004", "label": ""},
-                /*{
-                    "icon": "el-icon-grape", "name": "信息管理", "id": "802019011604450001", "label": "",
-                    "childs":
-                        [
-                            { "name": "业主信息", "href": "./customerInfoManage", "seq": "1", "isShow": "Y" },
-                            { "name": "房产信息", "href": "./realEstateInformation", "seq": "1", "isShow": "Y" },
-                        ],
-                    "seq": "1101"
-                },
-                {
-                    "icon": "el-icon-lx-recharge", "name": "收费管理", "id": "802019011604450001", "label": "",
-                    "childs":
-                        [
-                            { "name": "仪表抄表", "href": "/instrumentMeter", "seq": "0", "isShow": "Y" },
-                        ],
-                    "seq": "1102"
-                },*/
                 {
                     "icon": "el-icon-notebook-2",
                     "name": "车辆记录",
@@ -128,7 +112,6 @@ export default () => {
                         ],
                     "seq": "1107"
                 },
-
                 //监控中心
                 {
                     "icon": "el-icon-video-camera",
@@ -148,8 +131,7 @@ export default () => {
                         ],
                     "seq": "1108"
                 },
-
-
+                //系统管理
                 {
                     "icon": "el-icon-lx-settings", "name": "系统管理", "id": "802019091604450001", "label": "",
                     "childs":
@@ -183,8 +165,8 @@ export default () => {
             },
 
         },
-
         modules: {
+            auth,
             dailog,
         },
     });

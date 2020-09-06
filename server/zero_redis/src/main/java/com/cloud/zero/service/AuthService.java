@@ -14,5 +14,9 @@ public interface AuthService {
 
     String login(SimpleUserEntity userEntity);
 
+    Integer logout(SimpleUserEntity userEntity);
+
     SimpleUserEntity loadUserByUsername(String username, String token);
+
+    Integer refreshToken(String username, String newToken);
 }

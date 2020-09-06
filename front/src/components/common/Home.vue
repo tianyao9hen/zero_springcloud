@@ -59,6 +59,7 @@ export default {
   },
   computed: {
       //在这里映射 store.state.count，使用方法和 computed 里的其他属性一样
+      //这里的isShow是修改密码弹窗是否显示，当前值为false
     ...mapGetters("dailog", {
       isShow: "isShow"
     })
@@ -85,14 +86,24 @@ export default {
       this.collapse = msg;
     });
 
-    // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
-    bus.$on("tags", msg => {
-      let arr = [];
-      for (let i = 0, len = msg.length; i < len; i++) {
-        msg[i].name && arr.push(msg[i].name);
+    this.$store.dispatch('auth/getUserEntityByToken').then(res => {
+      console.log('123123');
+      if(res.success){
+        // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
+        bus.$on("tags", msg => {
+          let arr = [];
+          for (let i = 0, len = msg.length; i < len; i++) {
+            msg[i].name && arr.push(msg[i].name);
+          }
+          this.tagsList = arr;
+        });
+      }else{
+        this.$router.push("/login");
       }
-      this.tagsList = arr;
-    });
+    }).catch(err => {
+      console.log(err);
+      this.$router.push("/login");
+    })
   }
 };
 </script>

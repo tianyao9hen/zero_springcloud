@@ -6,9 +6,6 @@ const getters = {
     isShow(state) {
         return state.showUser;
     },
-    getUserType() {
-        return state.userType;
-    }
 }
 const mutations = { // 处理状态
     hide(state) {
@@ -17,9 +14,6 @@ const mutations = { // 处理状态
     show(state) {
         state.showUser = true;
     },
-    setUserType(state, model) {
-        state.userType = model;
-    }
 }
 const actions = { // 提交改变后的状态
     showDailog({ commit }) {
@@ -28,9 +22,6 @@ const actions = { // 提交改变后的状态
     hideDailog({ commit }) {
         commit('hide');//提交改变后的state.count值
     },
-    setUserType({ commit }, model) {
-        commit('setUserType', model);
-    }
 }
 export default {
     namespaced: true,

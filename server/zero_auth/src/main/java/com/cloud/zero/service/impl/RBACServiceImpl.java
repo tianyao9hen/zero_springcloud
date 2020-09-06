@@ -5,24 +5,21 @@ import com.cloud.zero.entities.AuthMenu;
 import com.cloud.zero.entities.AuthUserEntity;
 import com.cloud.zero.service.AuthMenuService;
 import com.cloud.zero.service.AuthService;
-import com.cloud.zero.service.JwtAuthService;
 import com.cloud.zero.service.RBACService;
+import com.cloud.zero.service.UserEntityService;
 import com.cloud.zero.utils.JwtUtils;
 import com.cloud.zero.utils.RsaUtils;
-import com.fasterxml.jackson.databind.ser.Serializers;
-import org.bouncycastle.jcajce.provider.asymmetric.RSA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -40,7 +37,7 @@ public class RBACServiceImpl implements RBACService {
     private AuthService authRedisService;
 
     @Autowired
-    private JwtAuthService jwtAuthService;
+    private UserEntityService userEntityService;
 
     @Autowired
     private AuthMenuService authMenuService;
@@ -64,23 +61,17 @@ public class RBACServiceImpl implements RBACService {
                     return true;
                 }
                 Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-                
+
                 //鉴权
                 for (GrantedAuthority grantedAuthority : authorities) {
                     if(grantedAuthority.getAuthority().equals(authorityList.get(0).getAuthority())) {
                         //鉴权通过
-                        PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
-                        Long tokenDuration = JwtUtils.getTokenDuration(token, publicKey);
-                        if(tokenDuration <= 0L) return false;
-                        if(tokenDuration <= (BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE / 2)){
-                            //token有效期已经过半
-                            //重新创建token
-                            String newToken = jwtAuthService.refreshToken(token);
-                            userDetails.setToken(newToken);
-                            //重新向redis中添加数据
-                            authRedisService.login(userDetails.packageSimpleUser());
+                        //判断token有效期，决定是否刷新token
+                        String newToken = userEntityService.refreshTokenByDuration(token);
+                        if(StringUtils.isEmpty(newToken)){
+                            return false;
                         }
-
+                        userDetails.setToken(newToken);
                         request.setAttribute("nowUser",userDetails);
                         return true;
                     }

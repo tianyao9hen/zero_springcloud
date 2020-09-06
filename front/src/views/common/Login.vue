@@ -17,7 +17,6 @@
         <el-form-item prop="password">
           <el-input type="password" placeholder="password" v-model="ruleForm.password"
             @keyup.enter.native="submitForm('ruleForm')">
-            <!--<el-button slot="prepend" icon="el-icon-lx-lock"></el-button>-->
             <template slot="prepend">
               <div class="login-icon">
                 <i class="el-icon-lx-lock"></i>
@@ -25,13 +24,6 @@
             </template>
           </el-input>
         </el-form-item>
-        <!--<el-form-item prop="type">
-          <el-radio-group v-model="ruleForm.type">
-            <el-radio :label="2">系统管理员</el-radio>
-            <el-radio :label="1">物业人员</el-radio>
-            <el-radio :label="0">业主</el-radio>
-          </el-radio-group>
-        </el-form-item>-->
         <div class="login-btn">
           <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
         </div>
@@ -41,15 +33,12 @@
 </template>
 
 <script>
-import {login} from 'network/auth';
-
 export default {
   data: function () {
     return {
       ruleForm: {
         username: 'admin',
-        password: '123123',
-        /*type: 1*/
+        password: '123',
       },
       rules: {
         username: [
@@ -68,22 +57,12 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          login(this.ruleForm.username,this.ruleForm.password).then(res => {
-              console.log(res);
-          }).catch(err => {
-              console.log(err);
-          })
-          //sessionStorage.setItem('ms_username', this.ruleForm.username);
-          //this.$router.push('/homePage1');
-          //sessionStorage.setItem('setUserType', this.ruleForm.type);
-          //this.$store.dispatch("setUserType", this.ruleForm.type);
-          /*if ((this.ruleForm.type + '').trim() == '0') {
-            this.$router.push('/homePage1');
-          } else if ((this.ruleForm.type + '').trim() == '1') {
-            this.$router.push('/homePage1');
-          } else if ((this.ruleForm.type + '').trim() == '2') {
-            this.$router.push('/homePage1');
-          }*/
+          this.$store.dispatch("setUserType", 1);
+          this.$store.dispatch('auth/login',this.ruleForm).then(res => {
+            if(res.success){
+              this.$router.push('/homePage1');
+            }
+          }).catch(err => {})
         } else {
           console.log('error submit!!');
           return false;

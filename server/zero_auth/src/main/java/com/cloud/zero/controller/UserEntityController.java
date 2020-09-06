@@ -5,15 +5,14 @@ import com.cloud.zero.entities.AuthUserEntity;
 import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.ResultContent;
 import com.cloud.zero.enumType.FwWebError;
-import com.cloud.zero.service.JwtAuthService;
+import com.cloud.zero.exception.ServiceReturnException;
+import com.cloud.zero.service.UserEntityService;
+import com.cloud.zero.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * UserEntityController
@@ -28,7 +27,7 @@ import java.util.Map;
 public class UserEntityController {
 
     @Autowired
-    private JwtAuthService jwtAuthService;
+    private UserEntityService userEntityService;
 
     /**
      * @Description 登陆
@@ -45,7 +44,7 @@ public class UserEntityController {
             return resultConstant;
         }
         try{
-            AuthUserEntity userEntity = jwtAuthService.login(username, password);
+            AuthUserEntity userEntity = userEntityService.login(username, password);
             resultConstant.setResult(userEntity.packageSimpleUser());
         }catch(Exception e){
             log.error(e.getMessage(),e);
@@ -54,11 +53,54 @@ public class UserEntityController {
         return resultConstant;
     }
 
+    /**
+     * @Description 退出登陆
+     * @Return com.cloud.zero.entities.common.ResultContent
+     */
+    @GetMapping("/logout")
+    public ResultContent logout(HttpServletRequest request){
+        ResultContent resultConstant = new ResultContent();
+        try{
+            SimpleUserEntity nowUser = UserUtils.getNowUser(request);
+            Integer result = userEntityService.logout(nowUser);
+            resultConstant.setSuccess(true);
+        }catch(Exception e){
+            log.error(e.getMessage(),e);
+            resultConstant.setError(e);
+        }
+        return resultConstant;
+    }
+
+    /**
+     * @Description 根据token查询userEntity
+     * @Return com.cloud.zero.entities.common.ResultContent
+     */
+    @GetMapping("/getUserEntityByToken")
+    public ResultContent getUserEntityByToken(HttpServletRequest request){
+        ResultContent resultConstant = new ResultContent();
+        try {
+            SimpleUserEntity nowUser = UserUtils.getNowUser(request);
+            if (nowUser == null) {
+                resultConstant.setError(FwWebError.REFRESH_LOGIN);
+            }
+            resultConstant.setResult(nowUser);
+        }catch(Exception e){
+            log.error(e.getMessage(),e);
+            resultConstant.setError(e);
+        }
+        return resultConstant;
+    }
+
+    /**
+     * @Description 刷新token
+     * @Param token
+     * @Return com.cloud.zero.entities.common.ResultContent
+     */
     @PostMapping("/refreshtoken")
     public ResultContent refresh(@RequestHeader(BaseConstant.JWT_HEADER_NAME) String token){
         ResultContent resultConstant = new ResultContent();
         try {
-            resultConstant.setResult(jwtAuthService.refreshToken(token));
+            resultConstant.setResult(userEntityService.refreshToken(token));
         } catch (Exception e) {
             log.error(e.getMessage(),e);
             resultConstant.setError(e);

@@ -81,8 +81,11 @@ export default {
     // 用户名下拉菜单选择事件
     handleCommand(command) {
       if (command == "loginout") {
-        sessionStorage.removeItem("ms_username");
-        this.$router.push("/login");
+        //退出
+        this.$store.dispatch('auth/logout').then(res => {
+            window.localStorage.removeItem(this.BaseConstants.TOKEN_STORAGE_NAME)
+            this.$router.push("/login");
+        })
       }else if(command =="user"){
         this.$store.dispatch('dailog/showDailog')
       }

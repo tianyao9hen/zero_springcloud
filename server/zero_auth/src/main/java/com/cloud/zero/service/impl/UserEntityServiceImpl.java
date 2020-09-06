@@ -2,12 +2,12 @@ package com.cloud.zero.service.impl;
 
 import com.cloud.zero.constant.BaseConstant;
 import com.cloud.zero.entities.AuthUserEntity;
+import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.enumType.FwWebError;
 import com.cloud.zero.exception.ServiceReturnException;
 import com.cloud.zero.service.AuthService;
-import com.cloud.zero.service.JwtAuthService;
+import com.cloud.zero.service.UserEntityService;
 import com.cloud.zero.utils.JwtUtils;
-import com.cloud.zero.utils.RedisUtil;
 import com.cloud.zero.utils.RsaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +21,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- * JwtAuthServiceImpl
+ * UserEntityServiceImpl
  * 涉及到生成和更新jwt token的权限Service
  *
  * @author pxf
@@ -29,7 +29,7 @@ import java.security.PublicKey;
  * @Date 2020-08-26
  */
 @Service
-public class JwtAuthServiceImpl implements JwtAuthService {
+public class UserEntityServiceImpl implements UserEntityService {
 
     @Resource
     private AuthenticationManager authenticationManager;
@@ -75,6 +75,16 @@ public class JwtAuthServiceImpl implements JwtAuthService {
         return userEntity;
     }
 
+    /**
+     * @Description 退出登陆
+     * @Param userEntity
+     * @Return java.lang.Integer
+     */
+    @Override
+    public Integer logout(SimpleUserEntity userEntity) {
+        return authRedisService.logout(userEntity);
+    }
+
 
     /**
      * @Description 刷新token
@@ -86,8 +96,31 @@ public class JwtAuthServiceImpl implements JwtAuthService {
         PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
         PrivateKey privateKey = RsaUtils.getPrivateKey(BaseConstant.PRI_KEY_PATH);
         if(!JwtUtils.isTokenExpired(oldToken,publicKey)){
-            return JwtUtils.refreshToken(oldToken, publicKey, privateKey, AuthUserEntity.class, BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE.intValue());
+            SimpleUserEntity userEntity = JwtUtils.getObjectFromToken(oldToken, publicKey, SimpleUserEntity.class);
+            String newToken = JwtUtils.refreshToken(oldToken, publicKey, privateKey, AuthUserEntity.class, BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE.intValue());
+            Integer result = authRedisService.refreshToken(userEntity.getUsername(),newToken);
+            if(result > 0){
+                return newToken;
+            }
         }
         return null;
+    }
+
+    /**
+     * @Description 刷新token,当token有效时间不足一半时
+     * @Param oldToken
+     * @Return java.lang.String
+     */
+    @Override
+    public String refreshTokenByDuration(String oldToken) throws Exception {
+        PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
+        Long tokenDuration = JwtUtils.getTokenDuration(oldToken, publicKey);
+        if(tokenDuration <= 0L) return null;
+        if(tokenDuration <= (BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE / 2)){
+            //token有效期已经过半
+            //重新创建token
+            return refreshToken(oldToken);
+        }
+        return oldToken;
     }
 }

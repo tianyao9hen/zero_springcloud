@@ -5,6 +5,9 @@
 
 import {request} from './request'
 
+/*
+* 登陆
+* */
 export function login(username,password){
     return request({
         url: '/auth/login',
@@ -13,5 +16,25 @@ export function login(username,password){
             username,
             password
         }
+    })
+}
+
+/*
+* 根据token获取用户信息
+* */
+export function getUserEntityByToken(){
+    return request({
+        url: '/auth/getUserEntityByToken',
+        method: 'get',
+    })
+}
+
+/*
+* 退出登陆
+* */
+export function logout(){
+    return request({
+        url: '/auth/logout',
+        method: 'get',
     })
 }

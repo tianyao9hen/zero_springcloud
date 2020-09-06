@@ -1,5 +1,6 @@
 package com.cloud.zero.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cloud.zero.constant.BaseConstant;
 import com.cloud.zero.entities.auth.SimpleUserEntity;
@@ -118,7 +119,9 @@ public class AuthFilter implements GlobalFilter,Ordered {
 
         //将当前的token保存再响应头中
         String nowToken = userEntity.getToken();
+        //增加返回响应头，以及Access-Control-Expose-Headers响应头，作用是让我们自定义的响应头能够被浏览器读取
         exchange.getResponse().getHeaders().set(BaseConstant.JWT_HEADER_NAME,nowToken);
+        exchange.getResponse().getHeaders().set("Access-Control-Expose-Headers",BaseConstant.JWT_HEADER_NAME);
 
         //通过过滤器
         return chain.filter(exchange);
@@ -134,11 +137,15 @@ public class AuthFilter implements GlobalFilter,Ordered {
      *@Param
      *@Return
      */
-
     private DataBuffer setResponse(FwWebError fwWebError,ServerHttpResponse response){
+
+        response.getHeaders().set("Content-Type","application/json;charset=UTF-8");
+
         ResultContent resultConstant= new ResultContent();
         resultConstant.setError(fwWebError);
-        String json = JSONObject.toJSONString(resultConstant);
+        Object jsonObject = JSON.toJSON(resultConstant);
+        String json = JSONObject.toJSONString(jsonObject);
+        //String json = JSONObject.toJSONString(resultConstant);
         DataBuffer buffer = response.bufferFactory().wrap(json.getBytes());
         return buffer;
     }

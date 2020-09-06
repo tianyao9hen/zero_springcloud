@@ -3,6 +3,7 @@
  */
 
 import axios from 'axios';
+import baseConstants from 'components/common/constants/Base.constants';
 
 export function request(config){
     const instance = axios.create({
@@ -22,6 +23,12 @@ export function request(config){
              * 2. 在发送网络请求时，希望在界面显示一个请求的图标
              * 3. 某些网络请求(比如登陆)，必须携带一些特殊的信息
              * */
+            const token = window.localStorage.getItem(baseConstants.TOKEN_STORAGE_NAME);
+            if(token){
+                config.headers[baseConstants.TOKEN_HEADER_NAME] = token;
+                config.headers['Access-Control-Expose-Headers'] = baseConstants.TOKEN_HEADER_NAME;
+            }
+
             return config //必须将config进行返回，这样才能继续执行请求
         },
         err => {
@@ -34,7 +41,8 @@ export function request(config){
             //响应成功的拦截方法
             //res为服务器返回的结果对象
             //res.data为服务器返回的数据信息
-
+            const token = res.headers[baseConstants.TOKEN_HEADER_NAME];
+            window.localStorage.setItem(baseConstants.TOKEN_STORAGE_NAME,token);
             //必须将结果返回，才能让回调函数处理返回的结果
             return res.data;
         },

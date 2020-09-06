@@ -1,30 +1,21 @@
 package com.cloud.zero.config;
 
 import com.cloud.zero.filter.JwtAuthenticationTokenFilter;
-import com.cloud.zero.service.impl.JwtAuthServiceImpl;
 import com.cloud.zero.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
-import java.util.Arrays;
 
 /**
  * SecurityConfig
@@ -63,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll() //不做拦截的请求
-                //.antMatchers("/index").authenticated() //登陆就可以访问
+                .antMatchers("/auth/getUserEntityByToken","/auth/logout").permitAll()
                 .antMatchers("/auth/checkUser").access("@rbacService.hasPermission(request,authentication)")
                 .anyRequest().authenticated()
             .and()
