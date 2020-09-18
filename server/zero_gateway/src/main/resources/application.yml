@@ -27,6 +27,10 @@ spring:
           uri: lb://ZERO-AUTH
           predicates:
             - Path=/auth/**
+        - id: zero-system-dict # 数据字典
+          uri: lb://ZERO-SYSTEM
+          predicates:
+            - Path=/dict/**
   # 引入外部yml文件
   profiles:
     include: url
@@ -61,3 +65,16 @@ cors:
     POST,
     PUT,
     DELETE
+
+# 设置Feign客户端超时时间（OpenFeign默认支持ribbon）
+ribbon:
+  # 开启时加载
+  eager-load:
+    enabled: true
+    clients: zero-auth
+  # 指的是建立连接后服务器读取到可用资源所用的时间，就是服务执行的时间
+  ReadTimeout: 5000
+  # 指的是建立连接所用的时间，适用于网络状况正常情况下，两端连接所有的时间
+  ConnectTimeout: 5000
+
+

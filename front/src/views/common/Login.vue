@@ -61,11 +61,12 @@ export default {
           this.$store.dispatch('auth/login',this.ruleForm).then(res => {
             if(res.success){
               this.$router.push('/homePage1');
+            }else{
+              this.$message.error(res.error);
             }
-          }).catch(err => {})
-        } else {
-          console.log('error submit!!');
-          return false;
+          }).catch(err => {
+            this.$message.error(err.error);
+          })
         }
       });
     }

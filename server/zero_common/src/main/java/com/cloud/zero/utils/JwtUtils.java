@@ -158,7 +158,8 @@ public class JwtUtils {
         }
         long lastTime = claims.getExpiration().getTime();
         long nowTime = System.currentTimeMillis();
-        return (lastTime - nowTime) / 1000L /60L;
+        long result = (lastTime - nowTime) / 1000L / 60L;
+        return result;
     }
 
     /**

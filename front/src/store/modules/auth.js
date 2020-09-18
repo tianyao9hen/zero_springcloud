@@ -72,7 +72,6 @@ const actions = {
         return new Promise((resolve,reject) => {
             if(!context.getters.getUserEntity || !context.getters.getToken){
                 getUserEntityByToken().then(res => {
-                    console.log("net");
                     if(res.success){
                         context.commit('setUserEntity',res.result);
                         context.commit('setPropertyMenu',res.result.authorities);

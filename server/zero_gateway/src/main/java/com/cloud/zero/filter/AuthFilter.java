@@ -7,7 +7,6 @@ import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.ResultContent;
 import com.cloud.zero.enumType.FwWebError;
 import com.cloud.zero.service.LoginCheckApi;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,11 +19,9 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -119,6 +116,9 @@ public class AuthFilter implements GlobalFilter,Ordered {
 
         //将当前的token保存再响应头中
         String nowToken = userEntity.getToken();
+        System.out.println("new Token:");
+        System.out.println(nowToken);
+
         //增加返回响应头，以及Access-Control-Expose-Headers响应头，作用是让我们自定义的响应头能够被浏览器读取
         exchange.getResponse().getHeaders().set(BaseConstant.JWT_HEADER_NAME,nowToken);
         exchange.getResponse().getHeaders().set("Access-Control-Expose-Headers",BaseConstant.JWT_HEADER_NAME);

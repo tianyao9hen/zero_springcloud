@@ -22,7 +22,11 @@ public enum FwWebError {
     REFRESH_LOGIN("AUTH_E_06","请重新登陆！"),
 
     //redis
-    REDIS_WRONG("REDIS_E_01","redis保存错误！");
+    REDIS_WRONG("REDIS_E_01","redis保存错误！"),
+
+    //dict
+    ALREADY_EXISTED("DICT_E_01","该字典项已存在！"),
+    DICT_EDIT_ERROR("DICT_E_00","编辑失败！");
 
 
     public final String code;

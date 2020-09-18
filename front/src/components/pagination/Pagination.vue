@@ -1,7 +1,7 @@
 <template>
     <div class="pagination" style="text-align:center">
         <el-pagination
-                :current-page="currentPage"
+                :current-page="pageNum"
                 :page-sizes="pageSizes"
                 :page-size="pageSize"
                 :pager-count="5"
@@ -41,7 +41,7 @@
         },
         props: {
             //当前页
-            currentPage: {
+            pageNum: {
                 type: Number,
                 default: 1
             },

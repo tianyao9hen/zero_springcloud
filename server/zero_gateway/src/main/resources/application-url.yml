@@ -2,6 +2,7 @@
 whitelist:
   urlset:
     /auth/login,
+    /dict/getOptions,
 
   fileset:
     css,

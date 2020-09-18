@@ -87,7 +87,6 @@ export default {
     });
 
     this.$store.dispatch('auth/getUserEntityByToken').then(res => {
-      console.log('123123');
       if(res.success){
         // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
         bus.$on("tags", msg => {

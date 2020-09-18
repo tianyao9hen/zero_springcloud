@@ -42,7 +42,9 @@ export function request(config){
             //res为服务器返回的结果对象
             //res.data为服务器返回的数据信息
             const token = res.headers[baseConstants.TOKEN_HEADER_NAME];
-            window.localStorage.setItem(baseConstants.TOKEN_STORAGE_NAME,token);
+            if(token){
+                window.localStorage.setItem(baseConstants.TOKEN_STORAGE_NAME,token);
+            }
             //必须将结果返回，才能让回调函数处理返回的结果
             return res.data;
         },

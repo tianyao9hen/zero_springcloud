@@ -15,16 +15,13 @@ import java.io.Serializable;
  * @version v1.0
  * @Date 2020-08-25
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ResultContent implements Serializable{
+public class ResultContent<T> implements Serializable{
 
     private static final long serialVersionUID = -8871294006366435253L;
 
     private Boolean success;
 
-    private Object result;
+    private T result;
 
     private Object error;
 
@@ -50,9 +47,25 @@ public class ResultContent implements Serializable{
         this.errorCode = errorCode;
     }
 
-    public void setResult(Object result){
+    public void setResult(T result){
         success = true;
         this.result = result;
+    }
+
+    public T getResult(){
+        return this.result;
+    }
+
+    public String getErrorCode(){
+        return this.errorCode;
+    }
+
+    public Object getError(){
+        return this.error;
+    }
+
+    public void setSuccess(Boolean success){
+        this.success = success;
     }
 
     public Boolean isSuccess(){

@@ -57,6 +57,13 @@ public class RBACServiceImpl implements RBACService {
                 //查询所有的权限，如果根本权限表中没有这个权限，则认为不设限制
                 List<AuthMenu> authMenus = authMenuService.queryMenuByUrl(authorityList.get(0).getAuthority());
                 if(authMenus == null) {
+                    //鉴权通过
+                    //判断token有效期，决定是否刷新token
+                    String newToken = userEntityService.refreshTokenByDuration(token);
+                    if(StringUtils.isEmpty(newToken)){
+                        return false;
+                    }
+                    userDetails.setToken(newToken);
                     request.setAttribute("nowUser",userDetails);
                     return true;
                 }

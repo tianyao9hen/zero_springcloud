@@ -115,6 +115,9 @@ public class UserEntityServiceImpl implements UserEntityService {
     public String refreshTokenByDuration(String oldToken) throws Exception {
         PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
         Long tokenDuration = JwtUtils.getTokenDuration(oldToken, publicKey);
+        /*System.out.println("剩余时间：");
+        System.out.println(tokenDuration);*/
+        //return refreshToken(oldToken);
         if(tokenDuration <= 0L) return null;
         if(tokenDuration <= (BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE / 2)){
             //token有效期已经过半

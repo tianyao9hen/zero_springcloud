@@ -11,15 +11,17 @@
                         <slot name="headerButton"></slot>
                     </template>
                     <template slot="body">
-                        <slot v-if="noTable" name="body"></slot>
-                        <div class="webTable" v-if="!noTable">
-                            <slot name="webTable"></slot>
-                            <pagination :currentPage="tableData?tableData.currentPage:undefined"
-                                        :pageSize="tableData?tableData.pageSize:undefined"
-                                        :total="tableData?tableData.total:undefined"
-                                        :pageSizes="tableData?tableData.pageSizes:undefined"
-                                        @change-page="changePage"
-                            />
+                        <div id="loadDiv" :loading="tableLoading">
+                            <slot v-if="noTable" name="body"></slot>
+                            <div class="webTable" v-if="!noTable">
+                                <slot name="webTable"></slot>
+                                <pagination :page-num="tableData?tableData.pageNum:undefined"
+                                            :pageSize="tableData?tableData.pageSize:undefined"
+                                            :total="tableData?tableData.total:undefined"
+                                            :pageSizes="tableData?tableData.pageSizes:undefined"
+                                            @change-page="changePage"
+                                />
+                            </div>
                         </div>
                     </template>
                 </body-card>
@@ -65,11 +67,16 @@
                 default(){
                     return false;
                 }
+            },
+            tableLoading: {
+                type: Boolean,
+                default(){
+                    return false;
+                }
             }
         },
         methods: {
             changePage(currentPage,pageSize){
-                console.log(currentPage +":"+pageSize);
                 this.$emit('change-page',currentPage,pageSize)
             }
         }

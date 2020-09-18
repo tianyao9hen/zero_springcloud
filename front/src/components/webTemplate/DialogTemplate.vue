@@ -36,6 +36,7 @@
                 -->
             </div>
             <div class="empty" v-if="!isShowFooter && isShowBottomEmpty"></div>
+
         </el-dialog>
     </div>
 </template>
@@ -112,6 +113,22 @@
                 type: Boolean,
                 default(){
                     return true;
+                }
+            },
+            //是否显示加载中
+            dialogLoading: {
+                type: Boolean,
+                default(){
+                    return false;
+                }
+            }
+        },
+        watch:{
+            dialogLoading(){
+                if(this.dialogLoading){
+                    this.$loading()
+                }else{
+                    this.$loading().close()
                 }
             }
         },

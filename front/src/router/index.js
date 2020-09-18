@@ -38,7 +38,7 @@ export default new Router({
                         },
                         {
                             path: '/dict',
-                            component: resolve => require(['../views/sysmanager/dict.vue'], resolve),
+                            component: resolve => require(['../views/sysmanager/Dict.vue'], resolve),
                             meta: {title: '字典管理'}
                         },
                         {

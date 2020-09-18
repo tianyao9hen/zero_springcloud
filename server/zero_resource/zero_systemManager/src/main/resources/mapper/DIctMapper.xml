@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.zero.mapper.DictMapper">
+
+    <sql id="columns">
+        ID,
+        GROUP_CODE,
+        GROUP_NAME,
+        ITEM_CODE,
+        ITEM_NAME,
+        STATUS,
+        REMARKS,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        ACTIVE_FLAG
+    </sql>
+
+    <sql id="tColumns">
+        t.ID,
+        t.GROUP_CODE,
+        t.GROUP_NAME,
+        t.ITEM_CODE,
+        t.ITEM_NAME,
+        t.STATUS,
+        t.REMARKS,
+        t.CREATE_BY,
+        t.CREATE_DATE,
+        t.UPDATE_BY,
+        t.UPDATE_DATE,
+        t.ACTIVE_FLAG
+    </sql>
+
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.DictEntity">
+        <id property="id" column="ID"/>
+        <result property="groupCode" column="GROUP_CODE"/>
+        <result property="groupName" column="GROUP_NAME"/>
+        <result property="itemCode" column="ITEM_CODE"/>
+        <result property="itemName" column="ITEM_NAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="remarks" column="REMARKS"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateBy" column="UPDATE_BY"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="activeFlag" column="ACTIVE_FLAG"/>
+        <result property="statusStr" column="STATUS_STR"/>
+    </resultMap>
+
+    <resultMap id="optionsEntity" type="com.cloud.zero.entities.common.OptionEntity">
+        <result property="label" column="item_name"/>
+        <result property="value" column="item_code"/>
+    </resultMap>
+
+    <select id="selectOptions" resultMap="optionsEntity">
+        SELECT
+            ITEM_CODE,
+            ITEM_NAME
+        FROM SYS_DICT
+        <where>
+            ACTIVE_FLAG = '1'
+            AND STATUS = '1'
+            <if test="groupCode != null and groupCode != ''">
+                AND GROUP_CODE = #{groupCode}
+            </if>
+        </where>
+    </select>
+
+    <!--查询和分页查询-->
+    <select id="selectDict" resultMap="baseEntity">
+        SELECT
+        <include refid="tColumns"/>
+        ,d.ITEM_NAME AS STATUS_STR
+        FROM SYS_DICT t
+        LEFT JOIN SYS_DICT d ON d.ACTIVE_FLAG = '1' AND d.GROUP_CODE = 'DICT_STATUS' AND d.ITEM_CODE = t.STATUS
+        <where>
+            t.ACTIVE_FLAG = '1'
+            <if test="o.status != null and o.status != ''">
+                AND t.STATUS = #{o.status}
+            </if>
+            <if test="o.groupCode != null and o.groupCode != ''">
+                AND t.GROUP_CODE = #{o.groupCode}
+            </if>
+            <if test="o.groupName != null and o.groupName != ''">
+                AND t.GROUP_NAME LIKE '%${o.groupName}%'
+            </if>
+            <if test="o.itemCode != null and o.itemCode != ''">
+                AND t.ITEM_CODE = #{o.itemCode}
+            </if>
+            <if test="o.itemName != null and o.itemName != ''">
+                AND t.ITEM_NAME LIKE '%${itemName}%'
+            </if>
+        </where>
+        ORDER BY t.GROUP_CODE
+    </select>
+
+    <!--查询所有字典项组-->
+    <select id="selectGroup" resultMap="baseEntity">
+        SELECT
+            GROUP_CODE,
+            GROUP_NAME
+        FROM SYS_DICT
+        WHERE ACTIVE_FLAG = '1'
+        GROUP BY
+            GROUP_CODE,
+            GROUP_NAME
+    </select>
+
+    <!--新增-->
+    <insert id="insertDict">
+        INSERT INTO SYS_DICT
+        (
+            ID,
+            GROUP_CODE,
+            GROUP_NAME,
+            ITEM_CODE,
+            ITEM_NAME,
+            STATUS,
+            REMARKS,
+            CREATE_BY,
+            CREATE_DATE,
+            ACTIVE_FLAG
+        ) VALUES (
+            #{id},
+            #{groupCode},
+            #{groupName},
+            #{itemCode},
+            #{itemName},
+            #{status},
+            #{remarks},
+            #{createBy},
+            #{createDate},
+            '1'
+        )
+    </insert>
+
+    <!--修改-->
+    <update id="updateDict">
+        UPDATE SYS_DICT
+        <set>
+            <if test="itemCode != null and itemCode != ''">
+                ITEM_CODE = #{itemCode},
+            </if>
+            <if test="itemName != null and itemName != ''">
+                ITEM_NAME = #{itemName},
+            </if>
+            <if test="status != null and status != ''">
+                STATUS = #{status},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                REMARKS = #{remarks},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                UPDATE_BY = #{updateBy},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate},
+            </if>
+            <if test="activeFlag != null and activeFlag != ''">
+                ACTIVE_FLAG = #{activeFlag},
+            </if>
+        </set>
+        <where>
+            <if test="id != null and id != ''">
+                ID = #{id}
+            </if>
+            <if test="groupCode != null and groupCode != ''">
+                AND GROUP_CODE = #{groupCode}
+            </if>
+        </where>
+    </update>
+
+
+</mapper>
