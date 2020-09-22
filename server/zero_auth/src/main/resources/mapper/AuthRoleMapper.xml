@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.zero.mapper.AuthRoleMapper">
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.auth.RoleEntity">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="DESC" property="desc"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_DATE" property="updateDate"/>
+        <result column="REMARKS" property="remarks"/>
+        <result column="ACTIVE_FLAG" property="activeFlag"/>
+    </resultMap>
+
+    <sql id="columns">
+        ID,
+        NAME,
+        DESC,
+        STATUS,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        REMARKS,
+        ACTIVE_FLAG
+    </sql>
+
+    <sql id="rColumns">
+        r.ID,
+        r.NAME,
+        r.DESC,
+        r.STATUS,
+        r.CREATE_BY,
+        r.CREATE_DATE,
+        r.UPDATE_BY,
+        r.UPDATE_DATE,
+        r.REMARKS,
+        r.ACTIVE_FLAG
+    </sql>
+
+    <!--获得用户角色列表-->
+    <select id="selectRoleByUserId" resultMap="baseEntity">
+        SELECT <include refid="rColumns"/>
+        FROM SYS_ROLE r
+        LEFT JOIN SYS_USER_ROLE ur ON ur.ACTIVE_FLAG = '1' AND r.ID = ur.ROLE_ID
+        LEFT JOIN SYS_USER u ON u.ACTIVE_FLAG = '1' AND u.ID = ur.USER_ID
+        <where>
+            r.ACTIVE_FLAG = '1'
+            <if test="userId != null and userId != ''">
+                AND u.ID = #{userId}
+            </if>
+        </where>
+    </select>
+</mapper>

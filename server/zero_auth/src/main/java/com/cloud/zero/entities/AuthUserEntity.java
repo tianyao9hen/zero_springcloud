@@ -1,15 +1,14 @@
 package com.cloud.zero.entities;
 
 
-import com.cloud.zero.entities.auth.SimpleMenu;
+import com.cloud.zero.entities.auth.AuthorityEntity;
 import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.CommonEntity;
 import lombok.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,16 +28,14 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
     private String username;
     @Setter
     private String password;
-    @Setter
-    @Getter
-    private Date createTime;
 
     @Setter
     @Getter
-    private Long orgId;
+    private String orgId;
 
     @Setter
-    private Boolean enabled;
+    @Getter
+    private String status;
 
     @Setter
     @Getter
@@ -53,10 +50,10 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
     private String token;
 
     @Setter
-    private List<AuthMenu> authorities;
+    private List<AuthAuthorityEntity> authorities;
 
     @Override
-    public List<AuthMenu> getAuthorities(){
+    public List<AuthAuthorityEntity> getAuthorities(){
         return authorities;
     }
 
@@ -87,8 +84,10 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        if(enabled == null) return false;
-        return enabled;
+        if(StringUtils.isNotBlank(status) && "1".equals(status)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -103,16 +102,21 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
         setPhone(userEntity.getPhone());
         setEmail(userEntity.getEmail());
         setOrgId(userEntity.getOrgId());
-        setCreateTime(userEntity.getCreateTime());
-        setEnabled(userEntity.getEnabled());
+        setCreateBy(userEntity.getCreateBy());
+        setCreateDate(userEntity.getCreateDate());
+        setUpdateBy(userEntity.getUpdateBy());
+        setUpdateDate(userEntity.getUpdateDate());
+        setStatus(userEntity.getStatus());
+        setRemarks(userEntity.getRemarks());
+        setActiveFlag(userEntity.getActiveFlag());
         setToken(userEntity.getToken());
-        List<AuthMenu> authMenuList = new ArrayList<>();
-        List<SimpleMenu> simpleMenuList = userEntity.getAuthorities();
-        for (SimpleMenu simpleMenu : simpleMenuList) {
-            AuthMenu authMenu = new AuthMenu(simpleMenu);
-            authMenuList.add(authMenu);
+        List<AuthAuthorityEntity> authAuthorityEntityList = new ArrayList<>();
+        List<AuthorityEntity> authorityList = userEntity.getAuthorities();
+        for (AuthorityEntity authorityEntity : authorityList) {
+            AuthAuthorityEntity authAuthorityEntity = new AuthAuthorityEntity(authorityEntity);
+            authAuthorityEntityList.add(authAuthorityEntity);
         }
-        setAuthorities(authMenuList);
+        setAuthorities(authAuthorityEntityList);
     }
 
     /**
@@ -127,10 +131,15 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
         userEntity.setPhone(getPhone());
         userEntity.setEmail(getEmail());
         userEntity.setOrgId(getOrgId());
-        userEntity.setCreateTime(getCreateTime());
-        userEntity.setEnabled(enabled);
+        userEntity.setCreateBy(getCreateBy());
+        userEntity.setCreateDate(getCreateDate());
+        userEntity.setUpdateBy(getUpdateBy());
+        userEntity.setUpdateDate(getUpdateDate());
+        userEntity.setStatus(getStatus());
+        userEntity.setRemarks(getRemarks());
+        userEntity.setActiveFlag(getActiveFlag());
         userEntity.setToken(getToken());
-        userEntity.setAuthorities(packageSimpleMenu());
+        userEntity.setAuthorities(getSimpleAuthorityList());
         return userEntity;
     }
 
@@ -138,11 +147,12 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
      * @Description 得到该用户的所有menu对象
      * @Return java.util.List<com.cloud.zero.entities.auth.SimpleMenu>
      */
-    public List<SimpleMenu> packageSimpleMenu(){
-        List<SimpleMenu> menuList = new ArrayList<>();
-        for (AuthMenu authority : authorities) {
-            menuList.add(authority.getSimpleMenu());
+    public List<AuthorityEntity> getSimpleAuthorityList(){
+        List<AuthorityEntity> authorityEntityList = new ArrayList<>();
+        if(authorities == null) return authorityEntityList;
+        for (AuthAuthorityEntity authority : authorities) {
+            authorityEntityList.add(authority.getSimpleAuthority());
         }
-        return menuList;
+        return authorityEntityList;
     }
 }

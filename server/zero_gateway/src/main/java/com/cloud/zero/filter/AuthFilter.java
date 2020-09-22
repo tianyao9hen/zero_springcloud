@@ -116,8 +116,7 @@ public class AuthFilter implements GlobalFilter,Ordered {
 
         //将当前的token保存再响应头中
         String nowToken = userEntity.getToken();
-        System.out.println("new Token:");
-        System.out.println(nowToken);
+        log.info("new Token: \n" + nowToken);
 
         //增加返回响应头，以及Access-Control-Expose-Headers响应头，作用是让我们自定义的响应头能够被浏览器读取
         exchange.getResponse().getHeaders().set(BaseConstant.JWT_HEADER_NAME,nowToken);

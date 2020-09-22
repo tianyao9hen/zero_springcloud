@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.zero.mapper.AuthAuthorityMapper">
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.AuthAuthorityEntity">
+        <id column="ID" property="id"/>
+        <result column="PID" property="pid"/>
+        <result column="NAME" property="name"/>
+        <result column="URL" property="url"/>
+        <result column="ICON" property="icon"/>
+        <result column="SORT" property="sort"/>
+        <result column="TYPE" property="type"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_DATE" property="updateDate"/>
+        <result column="ACTIVE_FLAG" property="activeFlag"/>
+        <result column="REMARKS" property="remarks"/>
+    </resultMap>
+
+    <sql id="columns">
+        ID,
+        PID,
+        NAME,
+        URL,
+        ICON,
+        SORT,
+        TYPE,
+        STATUS,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        ACTIVE_FLAG,
+        REMARKS
+    </sql>
+
+    <sql id="aColumns">
+        a.ID,
+        a.PID,
+        a.NAME,
+        a.URL,
+        a.ICON,
+        a.SORT,
+        a.TYPE,
+        a.STATUS,
+        a.CREATE_BY,
+        a.CREATE_DATE,
+        a.UPDATE_BY,
+        a.UPDATE_DATE,
+        a.ACTIVE_FLAG,
+        a.REMARKS
+    </sql>
+
+    <!--通过url查询权限-->
+    <select id="selectAuthorityByUrl" resultMap="baseEntity">
+        SELECT
+            <include refid="columns"/>
+        FROM SYS_AUTHORITY
+        <where>
+            ACTIVE_FLAG = '1'
+            <if test="url != null and url != ''">
+                AND url = #{url}
+            </if>
+        </where>
+    </select>
+
+    <!--通过角色列表获取权限列表-->
+    <select id="selectAuthorityByRoleId" resultMap="baseEntity">
+        SELECT
+            <include refid="aColumns"/>
+        FROM SYS_AUTHORITY a
+        LEFT JOIN SYS_ROLE_AUTHORITY ra ON ra.ACTIVE_FLAG = '1' AND  a.ID = ra.AUTHORITY_ID
+        LEFT JOIN SYS_ROLE r ON r.ACTIVE_FLAG = '1' AND r.STATUS = '1' AND r.ID = ra.ROLE_ID
+        <where>
+            a.ACTIVE_FLAG = '1'
+            <if test="list != null">
+                AND r.ID IN
+                <foreach collection="list" item="item" open="(" close=")" separator=",">
+                    #{item.id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

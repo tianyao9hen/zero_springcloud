@@ -27,17 +27,15 @@ public class SimpleUserEntity extends CommonEntity {
 
     private String password;
 
-    private Date createTime;
-
-    private Long orgId;
-
-    private Boolean enabled;
+    private String orgId;
 
     private String phone;
 
     private String email;
 
+    private String status;
+
     private String token;
 
-    private List<SimpleMenu> authorities;
+    private List<AuthorityEntity> authorities;
 }

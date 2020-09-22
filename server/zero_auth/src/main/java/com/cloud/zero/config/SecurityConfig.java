@@ -50,11 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 允许跨域访问 SpringSecurity会自动寻找name=corsConfigurationSource的Bean
             .cors()
             .and()
-                ////关闭跨域保护
+                // 关闭跨域保护
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll() //不做拦截的请求
-                .antMatchers("/auth/getUserEntityByToken","/auth/logout").permitAll()
+                .antMatchers("/auth/getUserEntityByToken","/auth/logout","/auth/refreshtoken").permitAll()
                 .antMatchers("/auth/checkUser").access("@rbacService.hasPermission(request,authentication)")
                 .anyRequest().authenticated()
             .and()

@@ -1,14 +1,8 @@
 package com.cloud.zero.service.impl;
 
-import com.cloud.zero.constant.BaseConstant;
-import com.cloud.zero.entities.AuthMenu;
+import com.cloud.zero.entities.AuthAuthorityEntity;
 import com.cloud.zero.entities.AuthUserEntity;
-import com.cloud.zero.service.AuthMenuService;
-import com.cloud.zero.service.AuthService;
-import com.cloud.zero.service.RBACService;
-import com.cloud.zero.service.UserEntityService;
-import com.cloud.zero.utils.JwtUtils;
-import com.cloud.zero.utils.RsaUtils;
+import com.cloud.zero.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.PublicKey;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,13 +27,10 @@ import java.util.List;
 public class RBACServiceImpl implements RBACService {
 
     @Autowired
-    private AuthService authRedisService;
-
-    @Autowired
     private UserEntityService userEntityService;
 
     @Autowired
-    private AuthMenuService authMenuService;
+    private AuthAuthorityService authAuthorityService;
 
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
@@ -55,8 +45,9 @@ public class RBACServiceImpl implements RBACService {
                 List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(path);
 
                 //查询所有的权限，如果根本权限表中没有这个权限，则认为不设限制
-                List<AuthMenu> authMenus = authMenuService.queryMenuByUrl(authorityList.get(0).getAuthority());
-                if(authMenus == null) {
+                //List<AuthMenu> authMenus = authMenuService.queryMenuByUrl(authorityList.get(0).getAuthority());
+                List<AuthAuthorityEntity> authList = authAuthorityService.queryAuthorityByUrl(authorityList.get(0).getAuthority());
+                if(authList == null) {
                     //鉴权通过
                     //判断token有效期，决定是否刷新token
                     String newToken = userEntityService.refreshTokenByDuration(token);

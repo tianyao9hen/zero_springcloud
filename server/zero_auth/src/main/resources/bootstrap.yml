@@ -56,6 +56,9 @@ eureka:
     prefer-ip-address: true
     hostname: ${spring.application.name}
 
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
 # 日志级别server
 logging:
   file: target/app.log

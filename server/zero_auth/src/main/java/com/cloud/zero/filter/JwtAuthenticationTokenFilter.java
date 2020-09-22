@@ -2,12 +2,8 @@ package com.cloud.zero.filter;
 
 import com.cloud.zero.constant.BaseConstant;
 import com.cloud.zero.entities.AuthUserEntity;
-import com.cloud.zero.entities.auth.SimpleMenu;
 import com.cloud.zero.entities.auth.SimpleUserEntity;
-import com.cloud.zero.enumType.FwWebError;
-import com.cloud.zero.exception.ServiceReturnException;
 import com.cloud.zero.service.AuthService;
-import com.cloud.zero.service.impl.UserDetailsServiceImpl;
 import com.cloud.zero.utils.JwtUtils;
 import com.cloud.zero.utils.RsaUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +57,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
             }
             filterChain.doFilter(request, response);
         }catch(Exception e){
-            log.info(e.getMessage(),e);
+            log.error(e.getMessage(),e);
         }
     }
 }

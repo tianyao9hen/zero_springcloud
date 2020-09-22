@@ -9,6 +9,7 @@ import com.cloud.zero.service.AuthService;
 import com.cloud.zero.service.UserEntityService;
 import com.cloud.zero.utils.JwtUtils;
 import com.cloud.zero.utils.RsaUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,7 @@ import java.security.PublicKey;
  * @Date 2020-08-26
  */
 @Service
+@Slf4j
 public class UserEntityServiceImpl implements UserEntityService {
 
     @Resource
@@ -56,6 +58,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         }
         catch(Exception e){
             //如果验证不通过，则抛出异常
+            log.error(e.getMessage(),e);
             throw new ServiceReturnException(FwWebError.WRONG_LOGNNAME_OR_LOGINPASSWORD);
         }
         //生成jwt
@@ -115,9 +118,6 @@ public class UserEntityServiceImpl implements UserEntityService {
     public String refreshTokenByDuration(String oldToken) throws Exception {
         PublicKey publicKey = RsaUtils.getPublicKey(BaseConstant.PUB_KEY_PATH);
         Long tokenDuration = JwtUtils.getTokenDuration(oldToken, publicKey);
-        /*System.out.println("剩余时间：");
-        System.out.println(tokenDuration);*/
-        //return refreshToken(oldToken);
         if(tokenDuration <= 0L) return null;
         if(tokenDuration <= (BaseConstant.LOGIN_JWT_TIMEOUT_MINUTE / 2)){
             //token有效期已经过半

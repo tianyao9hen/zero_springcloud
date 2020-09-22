@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.zero.mapper.AuthUserMapper">
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.AuthUserEntity">
+        <id column="ID" property="id"/>
+        <result column="USERNAME" property="username"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="PHONE" property="phone"/>
+        <result column="EMAIL" property="email"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_DATE" property="updateDate"/>
+        <result column="REMARKS" property="remarks"/>
+        <result column="ACTIVE_FLAG" property="activeFlag"/>
+    </resultMap>
+
+    <sql id="columns">
+        ID,
+        USERNAME,
+        PASSWORD,
+        ORG_ID,
+        PHONE,
+        EMAIL,
+        STATUS,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        REMARKS,
+        ACTIVE_FLAG
+    </sql>
+
+    <!--根据username查询用户信息-->
+    <select id="selectUserByUserName" resultMap="baseEntity">
+        SELECT <include refid="columns"/>
+        FROM SYS_USER
+        <where>
+            ACTIVE_FLAG = '1'
+            <if test="username != null and username != ''">
+                AND USERNAME = #{username}
+            </if>
+        </where>
+    </select>
+</mapper>
