@@ -4,33 +4,33 @@
       background-color="#3E7DEB" text-color="#F0F5FA" active-text-color="#FFFFFF"
       unique-opened router>
       <template v-for="item in menuData">
-        <template v-if="item.childs">
-          <el-submenu :index="item.seq" :key="item.seq">
+        <template v-if="item.childs && item.childs.length > 0">
+          <el-submenu :index="item.id" :key="item.id">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{ item.name }}</span>
             </template>
             <template v-for="child in item.childs">
-              <template v-if="child.childs">
-                <el-submenu :index="child.seq" :key="child.seq">
+              <!--<template v-if="child.childs">
+                <el-submenu :index="child.sort" :key="child.sort">
                   <template slot="title">
                     <span slot="title">{{ child.name }}</span>
                   </template>
                   <el-menu-item v-for="(threeItem,i) in child.childs" :key="i"
-                    :index="threeItem.href">{{  threeItem.name }}</el-menu-item>
+                    :index="threeItem.url">{{  threeItem.name }}</el-menu-item>
                 </el-submenu>
-              </template>
-              <template v-else>
-                <el-menu-item :index="child.href" :key="child.href">
+              </template>-->
+              <!--<template v-else>-->
+                <el-menu-item :index="child.url" :key="child.url">
                   <div class="space-circular"></div>
                   <span slot="title">{{ child.name }}</span>
                 </el-menu-item>
-              </template>
+              <!--</template>-->
             </template>
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="item.href" :key="item.href" style="height: 56px;line-height: 56px">
+          <el-menu-item :index="item.url" :key="item.url" style="height: 56px;line-height: 56px">
             <i :class="item.icon" style="background-color:transparent !important;border:none;line-height: 56px"></i>
             <span slot="title">{{item.name }}</span>
           </el-menu-item>
@@ -69,8 +69,9 @@ export default {
     //   this.getMenuData();
   },
   mounted() {
-    let data = this.$store.getters.getUserType;
-    this.menuData = this.$store.getters.getPropertyMenu;
+    //let data = this.$store.getters.getUserType;
+    //this.menuData = this.$store.getters.getPropertyMenu;
+    this.menuData = this.$store.getters["auth/getPropertyMenu"];
   },
 };
 </script>

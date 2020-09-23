@@ -10,6 +10,7 @@ export default () => {
             userType: undefined,
             propertyMenu: [
                 {"icon": "el-icon-lx-home", "href": "/homePage1", "name": "系统首页", "id": "800201904004", "label": ""},
+                //车辆记录
                 {
                     "icon": "el-icon-notebook-2",
                     "name": "车辆记录",

@@ -30,18 +30,18 @@ export default new Router({
                             meta: {title: '系统首页'}
                         },
                         // 系统管理 7
-
-                        {
-                            path: '/user',
-                            component: resolve => require(['../views/sysmanager/user.vue'], resolve),
-                            meta: {title: '用户管理'}
-                        },
                         {
                             path: '/dict',
                             component: resolve => require(['../views/sysmanager/Dict.vue'], resolve),
                             meta: {title: '字典管理'}
                         },
-                        {
+
+                        /*{
+                            path: '/user',
+                            component: resolve => require(['../views/sysmanager/user.vue'], resolve),
+                            meta: {title: '用户管理'}
+                        },*/
+                        /*{
                             path: '/systemLog',
                             component: resolve => require(['../views/sysmanager/systemLog.vue'], resolve),
                             meta: {title: '系统日志'}
@@ -51,14 +51,14 @@ export default new Router({
                             component: resolve => require(['../views/sysmanager/params.vue'], resolve),
                             meta: {title: '参数设置'}
                         },
-
                         {
                             path: '/databaseBackup',
                             component: resolve => require(['../views/sysmanager/databaseBackup.vue'], resolve),
                             meta: {title: '数据库备份'}
-                        },
+                        },*/
+
                         //房产管理
-                        {
+                        /*{
                             path: '/customerInfoManage',
                             component: resolve => require(['../views/propertyManagement/customerInfoManage/CustomerInfoList.vue'], resolve),
                             meta: {title: '业主信息'}
@@ -72,10 +72,10 @@ export default new Router({
                             path: '/instrumentMeter',
                             component: resolve => require(['../views/payManagement/instrumentMeter.vue'], resolve),
                             meta: {title: '仪表抄表'}
-                        },
+                        },*/
 
                         //车辆记录
-                        {
+                        /*{
                             path: '/carRecord/accessRecord',
                             component: resolve => require(['../views/carRecord/AccessRecord'], resolve),
                             meta: {title: '进出记录'}
@@ -89,9 +89,10 @@ export default new Router({
                             path: '/carRecord/abnormalRecord',
                             component: resolve => require(['../views/carRecord/AbnormalRecord'], resolve),
                             meta: {title: '异常记录'}
-                        },
+                        },*/
+
                         //车辆授权
-                        {
+                        /*{
                             path: '/vehicleAuthorization/vehicleList',
                             component: resolve => require(['../views/vehicleAuthorization/VehicleList'], resolve),
                             meta: {title: '车辆列表'}
@@ -115,9 +116,10 @@ export default new Router({
                             path: '/vehicleAuthorization/abnormalVehicle',
                             component: resolve => require(['../views/vehicleAuthorization/AbnormalVehicle'], resolve),
                             meta: {title: '异常车辆'}
-                        },
+                        },*/
+
                         //车场配置
-                        {
+                        /*{
                             path: '/parkManagement/basicConfig',
                             component: resolve => require(['../views/parkManagement/BasicConfig'], resolve),
                             meta: {title: '基础信息'}
@@ -137,9 +139,10 @@ export default new Router({
                             name: 'editArea',
                             component: resolve => require(['../views/parkManagement/EditArea'], resolve),
                             meta: {title: '编辑区域'}
-                        },
+                        },*/
+
                         //财务对账
-                        {
+                        /*{
                             path: '/financialAccount/reportForm',
                             name: 'reportForm',
                             component: resolve => require(['../views/financialAccount/ReportForm'], resolve),
@@ -150,9 +153,10 @@ export default new Router({
                             name: 'reportForm',
                             component: resolve => require(['../views/financialAccount/InvoiceInfo'], resolve),
                             meta: {title: '电子发票'}
-                        },
+                        },*/
+
                         //优惠减免
-                        {
+                        /*{
                             path: '/couponManagement/authManagement',
                             name: 'authManagement',
                             component: resolve => require(['../views/couponManagement/AuthManagement'], resolve),
@@ -163,9 +167,10 @@ export default new Router({
                             name: 'businessHandler',
                             component: resolve => require(['../views/couponManagement/BusinessHandler'], resolve),
                             meta: {title: '业务办理'}
-                        },
+                        },*/
+
                         //统计中心
-                        {
+                        /*{
                             path: '/statisticalCenter/trafficStatistics',
                             component: resolve => require(['../views/statisticalCenter/TrafficStatistics'], resolve),
                             meta: {title: '流量统计'}
@@ -174,58 +179,21 @@ export default new Router({
                             path: '/statisticalCenter/saturationStatistics',
                             component: resolve => require(['../views/statisticalCenter/SaturationStatistics'], resolve),
                             meta: {title: '饱和度统计'}
-                        },
+                        },*/
+
                         //监控中心
-                        {
+                        /*{
                             path: '/monitoringCenter/chargeMonitoring',
                             component: resolve => require(['../views/monitoringCenter/ChargeMonitoring'], resolve),
                             meta: {title: '收费监控'}
-                        },
-
-
-                        // 开发专用 可删
-                        {
-                            path: '/Icon',
-                            component: resolve => require(['../views/common/Icon.vue'], resolve),
-                            meta: {title: '自定义图标'}
-                        },
-                        {
-                            path: '/Upload',
-                            component: resolve => require(['../views/common/Upload.vue'], resolve),
-                            meta: {title: '上传'}
-                        },
-                        {
-                            path: '/VueEditor',
-                            component: resolve => require(['../views/common/VueEditor.vue'], resolve),
-                            meta: {title: '编辑'}
-                        },
-                        {
-                            path: '/Markdown',
-                            component: resolve => require(['../views/common/Markdown.vue'], resolve),
-                            meta: {title: '编辑'}
-                        },
-                        {
-                            path: '/DragList',
-                            component: resolve => require(['../views/common/DragList.vue'], resolve),
-                            meta: {title: '可拖拽列表'}
-                        },
-                        {
-                            path: '/DragDialog',
-                            component: resolve => require(['../views/common/DragDialog.vue'], resolve),
-                            meta: {title: '可拖拽Dialog'}
-                        },
-                        {
-                            path: '/BaseCharts',
-                            component: resolve => require(['../views/common/BaseCharts.vue'], resolve),
-                            meta: {title: '基本图标'}
-                        },
+                        },*/
                     ]
             },
-            {
+            /*{
                 path: '/monitoringCenter/monitoringCenterPage',
                 component: resolve => require(['../views/monitoringCenter/MonitoringCenterPage'], resolve),
                 meta: {title: '监控中心'}
-            },
+            },*/
             {
                 path: '/login',
                 component: resolve => require(['../views/common/Login.vue'], resolve)

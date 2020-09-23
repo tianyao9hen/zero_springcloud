@@ -82,5 +82,8 @@
                 </foreach>
             </if>
         </where>
+        ORDER BY
+            a.TYPE,
+            a.SORT
     </select>
 </mapper>

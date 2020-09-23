@@ -6,11 +6,13 @@ import com.cloud.zero.entities.auth.RoleEntity;
 import com.cloud.zero.mapper.AuthAuthorityMapper;
 import com.cloud.zero.mapper.AuthRoleMapper;
 import com.cloud.zero.mapper.AuthUserMapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,10 +50,35 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         //通过角色列表获取权限列表
         //List<AuthMenu> authorities = authUserEntityMapper.findAuthorityByRoleCodes(roleCodes);
-        List<AuthAuthorityEntity> authorities =  authAuthorityMapper.selectAuthorityByRoleId(roleList);
+        List<AuthAuthorityEntity> authList =  authAuthorityMapper.selectAuthorityByRoleId(roleList);
+        List<AuthAuthorityEntity> authTree = new ArrayList<>();
+
+        //递归得到权限树
+        for (AuthAuthorityEntity authEntity : authList) {
+            if(StringUtils.equals(authEntity.getType(),"0")){
+                AuthAuthorityEntity authEntityTree = getAuthChilds(authEntity,authList);
+                authTree.add(authEntityTree);
+            }
+        }
 
         //转成用逗号分隔的字符串，为用户设置权限标识
-        userDetail.setAuthorities(authorities);
+        userDetail.setAuthorities(authTree);
         return userDetail;
+    }
+
+    private AuthAuthorityEntity getAuthChilds(AuthAuthorityEntity parentAuth, List<AuthAuthorityEntity> authList) {
+        List<AuthAuthorityEntity> childs = new ArrayList<>();
+        for (AuthAuthorityEntity authEntity : authList) {
+            if(StringUtils.equals(authEntity.getPid(),parentAuth.getId())){
+                if(StringUtils.equals(authEntity.getType(),"2")){
+                    childs.add(authEntity);
+                }else{
+                    AuthAuthorityEntity anthEntityTree = getAuthChilds(authEntity, authList);
+                    childs.add(anthEntityTree);
+                }
+            }
+        }
+        parentAuth.setChilds(childs);
+        return parentAuth;
     }
 }

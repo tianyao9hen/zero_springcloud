@@ -5,7 +5,11 @@ import com.cloud.zero.entities.common.CommonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 鉴权中心 权限entity
@@ -29,6 +33,7 @@ public class AuthAuthorityEntity extends CommonEntity implements GrantedAuthorit
     private String sort;    //排序
     private String type;    //权限类型 0：父节点 1页面节点 2请求按钮节点
     private String status;  //状态 0：停用 1：启用
+    private List<AuthAuthorityEntity> childs; //子节点
 
     @Override
     public String getAuthority() {
@@ -50,6 +55,15 @@ public class AuthAuthorityEntity extends CommonEntity implements GrantedAuthorit
         setUpdateDate(entity.getUpdateDate());
         setActiveFlag(entity.getActiveFlag());
         setRemarks(entity.getRemarks());
+        List<AuthorityEntity> childs = entity.getChilds();
+        List<AuthAuthorityEntity> authChilds = new ArrayList<>();
+        if(childs != null && childs.size() > 0){
+            for (AuthorityEntity child : childs) {
+                AuthAuthorityEntity authEntity = new AuthAuthorityEntity(child);
+                authChilds.add(authEntity);
+            }
+            setChilds(authChilds);
+        }
     }
 
     public AuthorityEntity getSimpleAuthority(){
@@ -71,4 +85,20 @@ public class AuthAuthorityEntity extends CommonEntity implements GrantedAuthorit
         return entity;
     }
 
+    public List<AuthorityEntity> getSimpleChilds() {
+        List<AuthAuthorityEntity> childs = getChilds();
+        List<AuthorityEntity> simpleChilds = new ArrayList<>();
+        if(childs == null || childs.size() <= 0) return simpleChilds;
+        for (AuthAuthorityEntity child : childs) {
+            if(StringUtils.equals(child.getType(),"2")){
+                simpleChilds.add(child.getSimpleAuthority());
+                continue;
+            }
+            List<AuthorityEntity> simpleChilds1 = child.getSimpleChilds();
+            AuthorityEntity simpleAuthority = child.getSimpleAuthority();
+            simpleAuthority.setChilds(simpleChilds1);
+            simpleChilds.add(simpleAuthority);
+        }
+        return simpleChilds;
+    }
 }

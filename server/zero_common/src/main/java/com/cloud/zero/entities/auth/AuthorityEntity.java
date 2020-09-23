@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * AuthorityEntity
  * 权限entity
@@ -27,5 +29,7 @@ public class AuthorityEntity extends CommonEntity {
     private String sort;    //排序
     private String type;    //权限类型 0：父节点 1页面节点 2请求按钮节点
     private String status;  //状态 0：停用 1：启用
+
+    private List<AuthorityEntity> childs;
 
 }

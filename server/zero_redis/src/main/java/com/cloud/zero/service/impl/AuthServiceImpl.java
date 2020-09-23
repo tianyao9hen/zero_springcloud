@@ -8,6 +8,7 @@ import com.cloud.zero.enumType.FwWebError;
 import com.cloud.zero.exception.ServiceReturnException;
 import com.cloud.zero.service.AuthService;
 import com.cloud.zero.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,6 +24,7 @@ import java.util.Date;
  * @Date 2020-09-03
  */
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     @Resource
@@ -43,6 +45,7 @@ public class AuthServiceImpl implements AuthService {
         String encodeId = new String(encoder.encode((userEntity.getUsername().getBytes())));
         //对userEntity进行加密
         String jsonUser = JSON.toJSONString(userEntity);
+
         String encodeUser = new String(encoder.encode((jsonUser.getBytes())));
 
         //模糊删除现在可能存在的同一用户的redis数据，保证同一个账户同一时间只能登陆一次
@@ -55,6 +58,7 @@ public class AuthServiceImpl implements AuthService {
         if(!redisResult){
             throw new ServiceReturnException(FwWebError.REDIS_WRONG);
         }
+        log.info("login redis: key:"+ key +"; value :" + jsonUser);
         //返回 由idkey表示添加成功
         return encodeId;
     }
@@ -82,6 +86,7 @@ public class AuthServiceImpl implements AuthService {
                 redisUtil.del(key);
             }
         }
+        log.info("logout redis: key:"+ key);
         return 1;
     }
 
@@ -102,6 +107,7 @@ public class AuthServiceImpl implements AuthService {
         if(isHas){
             String data = (String) redisUtil.get(key);
             SimpleUserEntity userEntity = JSONObject.parseObject(new String(decoder.decode(data)), SimpleUserEntity.class);
+            log.info("loadUserByUsername redis: key:"+ key + "; value:" + JSONObject.parseObject(new String(decoder.decode(data))));
             if(userEntity.getToken().equals(token)) return userEntity;
         }
         return null;

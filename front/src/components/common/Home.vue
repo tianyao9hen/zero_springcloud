@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="isLoadUser">
     <v-head></v-head>
     <v-sidebar></v-sidebar>
     <div class="content-box" :class="{'content-collapse':collapse}">
@@ -44,6 +44,7 @@ export default {
     return {
       tagsList: [],
       collapse: false,
+      isLoadUser: false,
       form: {
           name: '',
           region: '',
@@ -96,11 +97,11 @@ export default {
           }
           this.tagsList = arr;
         });
+        this.isLoadUser = true;
       }else{
         this.$router.push("/login");
       }
     }).catch(err => {
-      console.log(err);
       this.$router.push("/login");
     })
   }

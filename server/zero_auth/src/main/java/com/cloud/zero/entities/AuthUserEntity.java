@@ -110,13 +110,17 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
         setRemarks(userEntity.getRemarks());
         setActiveFlag(userEntity.getActiveFlag());
         setToken(userEntity.getToken());
-        List<AuthAuthorityEntity> authAuthorityEntityList = new ArrayList<>();
-        List<AuthorityEntity> authorityList = userEntity.getAuthorities();
-        for (AuthorityEntity authorityEntity : authorityList) {
-            AuthAuthorityEntity authAuthorityEntity = new AuthAuthorityEntity(authorityEntity);
-            authAuthorityEntityList.add(authAuthorityEntity);
+
+        //权限树
+        List<AuthAuthorityEntity> authTree = new ArrayList<>();
+        List<AuthorityEntity> authorityTree = userEntity.getAuthorities();
+        if(authorityTree != null && authorityTree.size() > 0){
+            for (AuthorityEntity authorityEntity : authorityTree) {
+                AuthAuthorityEntity authEntity = new AuthAuthorityEntity(authorityEntity);
+                authTree.add(authEntity);
+            }
         }
-        setAuthorities(authAuthorityEntityList);
+        setAuthorities(authTree);
     }
 
     /**
@@ -144,15 +148,18 @@ public class AuthUserEntity extends CommonEntity implements UserDetails{
     }
 
     /**
-     * @Description 得到该用户的所有menu对象
-     * @Return java.util.List<com.cloud.zero.entities.auth.SimpleMenu>
+     * @Description 得到该用户的所有权限对象
+     * @Return java.util.List<com.cloud.zero.entities.auth.AuthorityEntity>
      */
     public List<AuthorityEntity> getSimpleAuthorityList(){
-        List<AuthorityEntity> authorityEntityList = new ArrayList<>();
-        if(authorities == null) return authorityEntityList;
+        List<AuthorityEntity> authorityTree = new ArrayList<>();
+        if(authorities == null) return authorityTree;
         for (AuthAuthorityEntity authority : authorities) {
-            authorityEntityList.add(authority.getSimpleAuthority());
+            List<AuthorityEntity> simpleChilds = authority.getSimpleChilds();
+            AuthorityEntity simpleAuthority = authority.getSimpleAuthority();
+            simpleAuthority.setChilds(simpleChilds);
+            authorityTree.add(simpleAuthority);
         }
-        return authorityEntityList;
+        return authorityTree;
     }
 }
