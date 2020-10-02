@@ -1,7 +1,7 @@
 package com.cloud.zero.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.cloud.zero.entities.DictEntity;
+import com.cloud.zero.entities.system.DictEntity;
 import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.OptionEntity;
 import com.cloud.zero.entities.common.PageEntity;
@@ -10,7 +10,6 @@ import com.cloud.zero.service.DictService;
 import com.cloud.zero.utils.UserUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class DictServiceImpl implements DictService {
     /**
      * @Description 根据关键字查询全部字典项
      * @Param dictEntity
-     * @Return java.util.List<com.cloud.zero.entities.DictEntity>
+     * @Return java.util.List<com.cloud.zero.entities.system.DictEntity>
      */
     @Override
     public List<DictEntity> selectDict(DictEntity dictEntity) {
@@ -51,7 +50,7 @@ public class DictServiceImpl implements DictService {
      * @Description 分页查询
      * @Param dictEntity
      * @Param pageEntity
-     * @Return com.github.pagehelper.PageInfo<com.cloud.zero.entities.DictEntity>
+     * @Return com.github.pagehelper.PageInfo<com.cloud.zero.entities.system.DictEntity>
      */
     @Override
     public PageInfo<DictEntity> queryPage(DictEntity dictEntity, PageEntity pageEntity) {
@@ -122,7 +121,7 @@ public class DictServiceImpl implements DictService {
 
     /**
      * @Description 查询所有的字典组信息
-     * @Return java.util.List<com.cloud.zero.entities.DictEntity>
+     * @Return java.util.List<com.cloud.zero.entities.system.DictEntity>
      */
     @Override
     public List<DictEntity> selectGroup() {

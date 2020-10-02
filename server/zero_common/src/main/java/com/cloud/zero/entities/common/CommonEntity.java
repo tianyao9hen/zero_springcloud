@@ -21,10 +21,14 @@ public class CommonEntity extends PageEntity implements Serializable {
 
     private String createBy;
 
+    private String createByName;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh", timezone="GMT+8")
     private Date createDate;
 
     private String updateBy;
+
+    private String updateByName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh", timezone="GMT+8")
     private Date updateDate;
@@ -33,6 +37,22 @@ public class CommonEntity extends PageEntity implements Serializable {
 
     private String activeFlag;
 
+
+    public String getCreateByName() {
+        return createByName;
+    }
+
+    public void setCreateByName(String createByName) {
+        this.createByName = createByName;
+    }
+
+    public String getUpdateByName() {
+        return updateByName;
+    }
+
+    public void setUpdateByName(String updateByName) {
+        this.updateByName = updateByName;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

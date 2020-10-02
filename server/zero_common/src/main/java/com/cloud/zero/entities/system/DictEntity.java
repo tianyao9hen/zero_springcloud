@@ -1,4 +1,4 @@
-package com.cloud.zero.entities;
+package com.cloud.zero.entities.system;
 
 import com.cloud.zero.entities.common.CommonEntity;
 import lombok.AllArgsConstructor;

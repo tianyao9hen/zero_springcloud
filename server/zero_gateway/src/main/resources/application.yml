@@ -23,14 +23,21 @@ spring:
           uri: lb://ZERO-RESOURCE # 匹配后提供服务的路由地址，设置的服务id 。lb指负载均衡，默认是轮询
           predicates:
             - Path=/res/** # Path： 路径相匹配的进行路由
+        # 鉴权模块
         - id: zero-auth
           uri: lb://ZERO-AUTH
           predicates:
             - Path=/auth/**
-        - id: zero-system-dict # 数据字典
+        # 数据字典
+        - id: zero-system-dict
           uri: lb://ZERO-SYSTEM
           predicates:
             - Path=/dict/**
+        # 权限模块
+        - id: zero-system-auth
+          uri: lb://ZERO-SYSTEM
+          predicates:
+            - Path=/authority/**
   # 引入外部yml文件
   profiles:
     include: url
@@ -60,6 +67,7 @@ eureka:
 cors:
   origin-url:
     http://localhost:8080,
+    http://localhost:8081,
   method:
     GET,
     POST,

@@ -11,11 +11,11 @@
                         <slot name="headerButton"></slot>
                     </template>
                     <template slot="body">
-                        <div id="loadDiv" :loading="tableLoading">
+                        <div id="loadDiv">
                             <slot v-if="noTable" name="body"></slot>
                             <div class="webTable" v-if="!noTable">
                                 <slot name="webTable"></slot>
-                                <pagination :page-num="tableData?tableData.pageNum:undefined"
+                                <pagination v-if="isPage" :page-num="tableData?tableData.pageNum:undefined"
                                             :pageSize="tableData?tableData.pageSize:undefined"
                                             :total="tableData?tableData.total:undefined"
                                             :pageSizes="tableData?tableData.pageSizes:undefined"
@@ -39,6 +39,11 @@
             BodyCard,
             Pagination
         },
+        data(){
+          return {
+              loadingInstance : null,
+          }
+        },
         props: {
             webName: {
                 type: String,
@@ -47,6 +52,13 @@
             tableData: {
                 type: Object,
                 default: null,
+            },
+            //是否显示分页组件
+            isPage: {
+                type: Boolean,
+                default(){
+                    return true;
+                }
             },
             //是否显示搜索框
             simple: {
@@ -72,6 +84,15 @@
                 type: Boolean,
                 default(){
                     return false;
+                }
+            }
+        },
+        watch: {
+            tableLoading(value){
+                if(value){
+                    this.loadingInstance = this.$loading({target: document.querySelector("#loadDiv")})
+                }else{
+                    this.loadingInstance.close();
                 }
             }
         },

@@ -83,7 +83,7 @@
             </if>
         </where>
         ORDER BY
-            a.TYPE,
-            a.SORT
+            a.SORT,
+            a.TYPE
     </select>
 </mapper>

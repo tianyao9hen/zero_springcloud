@@ -29,11 +29,16 @@ export default new Router({
                             component: resolve => require(['../views/homePage/homePage1.vue'], resolve),
                             meta: {title: '系统首页'}
                         },
-                        // 系统管理 7
+                        // 系统管理
                         {
                             path: '/dict',
                             component: resolve => require(['../views/sysmanager/Dict.vue'], resolve),
                             meta: {title: '字典管理'}
+                        },
+                        {
+                            path: '/authority',
+                            component: resolve => require(['../views/sysmanager/AuthManage.vue'], resolve),
+                            meta: {title: '权限管理'}
                         },
 
                         /*{

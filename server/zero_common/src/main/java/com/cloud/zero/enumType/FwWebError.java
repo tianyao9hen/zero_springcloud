@@ -26,7 +26,12 @@ public enum FwWebError {
 
     //dict
     ALREADY_EXISTED("DICT_E_01","该字典项已存在！"),
-    DICT_EDIT_ERROR("DICT_E_00","编辑失败！");
+    DICT_EDIT_ERROR("DICT_E_00","编辑失败！"),
+
+    //authorty
+    AUTH_UNKOWN_EROR("AUTHORITY_E_00","权限管理未知错误"),
+    AUTH_REPEATED("AUTHORITY_E_O1","url重复"),
+    AUTH_UPDATE_NO_ID("AUTHORITY_E_02","修改权限未提供ID");
 
 
     public final String code;

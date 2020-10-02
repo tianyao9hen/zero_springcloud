@@ -1,10 +1,9 @@
 package com.cloud.zero.mapper;
 
-import com.cloud.zero.entities.DictEntity;
+import com.cloud.zero.entities.system.DictEntity;
 import com.cloud.zero.entities.common.OptionEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Map;

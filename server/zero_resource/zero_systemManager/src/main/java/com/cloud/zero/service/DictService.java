@@ -1,6 +1,6 @@
 package com.cloud.zero.service;
 
-import com.cloud.zero.entities.DictEntity;
+import com.cloud.zero.entities.system.DictEntity;
 import com.cloud.zero.entities.common.OptionEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.github.pagehelper.PageInfo;

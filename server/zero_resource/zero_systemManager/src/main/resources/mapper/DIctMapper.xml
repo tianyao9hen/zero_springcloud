@@ -33,7 +33,7 @@
         t.ACTIVE_FLAG
     </sql>
 
-    <resultMap id="baseEntity" type="com.cloud.zero.entities.DictEntity">
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.system.DictEntity">
         <id property="id" column="ID"/>
         <result property="groupCode" column="GROUP_CODE"/>
         <result property="groupName" column="GROUP_NAME"/>
@@ -42,8 +42,10 @@
         <result property="status" column="STATUS"/>
         <result property="remarks" column="REMARKS"/>
         <result property="createBy" column="CREATE_BY"/>
+        <result property="createByName" column="CREATE_BY_NAME"/>
         <result property="createDate" column="CREATE_DATE"/>
         <result property="updateBy" column="UPDATE_BY"/>
+        <result property="updateByName" column="UPDATE_BY_NAME"/>
         <result property="updateDate" column="UPDATE_DATE"/>
         <result property="activeFlag" column="ACTIVE_FLAG"/>
         <result property="statusStr" column="STATUS_STR"/>
@@ -73,8 +75,12 @@
         SELECT
         <include refid="tColumns"/>
         ,d.ITEM_NAME AS STATUS_STR
+        ,u1.NAME AS CREATE_BY_NAME
+        ,u2.NAME AS UPDATE_BY_NAME
         FROM SYS_DICT t
-        LEFT JOIN SYS_DICT d ON d.ACTIVE_FLAG = '1' AND d.GROUP_CODE = 'DICT_STATUS' AND d.ITEM_CODE = t.STATUS
+        LEFT JOIN SYS_DICT d ON d.ACTIVE_FLAG = '1'  AND d.STATUS = '1' AND d.GROUP_CODE = 'DICT_STATUS' AND d.ITEM_CODE = t.STATUS
+        LEFT JOIN SYS_USER u1 ON u1.ACTIVE_FLAG = '1' AND u1.ID = t.CREATE_BY
+        LEFT JOIN SYS_USER u2 ON u2.ACTIVE_FLAG = '1' AND u2.ID = t.UPDATE_BY
         <where>
             t.ACTIVE_FLAG = '1'
             <if test="o.status != null and o.status != ''">
@@ -93,7 +99,7 @@
                 AND t.ITEM_NAME LIKE '%${itemName}%'
             </if>
         </where>
-        ORDER BY t.GROUP_CODE
+        ORDER BY t.GROUP_CODE,t.ITEM_CODE
     </select>
 
     <!--查询所有字典项组-->

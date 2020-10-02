@@ -68,3 +68,77 @@ export function delDict(data){
         })
     })
 }
+
+//查询权限列表
+export function queryListAuth(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/authority/queryList',
+            method: 'get',
+            params: data
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//查询可以选择的父权限
+export function queryListPAuth(){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/authority/queryListPAuth',
+            method: 'get',
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//新增权限
+export function insertAuth(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/authority/insertAuth',
+            method: 'post',
+            data,
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//修改权限
+export function updateAuth(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/authority/updateAuth',
+            method: 'put',
+            data,
+        }).then(res => {
+            resolve(res)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+//删除权限
+export function delAuth(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/authority/delAuth',
+            method: 'delete',
+            data,
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}

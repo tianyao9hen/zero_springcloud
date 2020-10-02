@@ -1,14 +1,11 @@
 package com.cloud.zero.controller;
 
-import cn.hutool.core.lang.Dict;
-import com.cloud.zero.entities.DictEntity;
-import com.cloud.zero.entities.auth.SimpleUserEntity;
+import com.cloud.zero.entities.system.DictEntity;
 import com.cloud.zero.entities.common.OptionEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.cloud.zero.entities.common.ResultContent;
 import com.cloud.zero.enumType.FwWebError;
 import com.cloud.zero.service.DictService;
-import com.cloud.zero.utils.UserUtils;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +33,7 @@ public class DictController {
     /**
      * @Description 查询字典项
      * @Param dictEntity
-     * @Return com.cloud.zero.entities.common.ResultContent<java.util.List<com.cloud.zero.entities.DictEntity>>
+     * @Return com.cloud.zero.entities.common.ResultContent<java.util.List<com.cloud.zero.entities.system.DictEntity>>
      */
     @GetMapping("/selectDict")
     public ResultContent<List<DictEntity>> selectDict(DictEntity dictEntity){
@@ -73,7 +70,7 @@ public class DictController {
 
     /**
      * @Description 查询所有的字典组信息
-     * @Return com.cloud.zero.entities.common.ResultContent<java.util.List<com.cloud.zero.entities.DictEntity>>
+     * @Return com.cloud.zero.entities.common.ResultContent<java.util.List<com.cloud.zero.entities.system.DictEntity>>
      */
     @GetMapping("/selectGroup")
     public ResultContent<List<DictEntity>> selectGroup(){
@@ -92,7 +89,7 @@ public class DictController {
     /**
      * @Description 分页查询字典项
      * @Param dictEntity
-     * @Return com.cloud.zero.entities.common.ResultContent<com.github.pagehelper.PageInfo<com.cloud.zero.entities.DictEntity>>
+     * @Return com.cloud.zero.entities.common.ResultContent<com.github.pagehelper.PageInfo<com.cloud.zero.entities.system.DictEntity>>
      */
     @GetMapping("/queryPage")
     public ResultContent<PageInfo<DictEntity>> queryPage(DictEntity dictEntity){
@@ -169,6 +166,12 @@ public class DictController {
         return resultContent;
     }
 
+    /**
+     * @Description 删除字典项
+     * @Param dictEntity
+     * @Param request
+     * @Return com.cloud.zero.entities.common.ResultContent<java.lang.String>
+     */
     @DeleteMapping("/delDict")
     public ResultContent<String> delDict(@RequestBody DictEntity dictEntity,HttpServletRequest request){
         log.info("dict-delDict");

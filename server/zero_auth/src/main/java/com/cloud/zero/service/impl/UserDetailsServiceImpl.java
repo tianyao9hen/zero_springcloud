@@ -55,7 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         //递归得到权限树
         for (AuthAuthorityEntity authEntity : authList) {
-            if(StringUtils.equals(authEntity.getType(),"0")){
+            if(StringUtils.equals(authEntity.getPid(),"0")){ //pid为0的一定是根目录
                 AuthAuthorityEntity authEntityTree = getAuthChilds(authEntity,authList);
                 authTree.add(authEntityTree);
             }

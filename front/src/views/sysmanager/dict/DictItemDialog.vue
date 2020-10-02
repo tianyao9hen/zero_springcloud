@@ -114,7 +114,7 @@
                     groupName: "",
                     itemCode: "",
                     itemName: "",
-                    status: "",
+                    status: "1",
                     remarks: "",
                 },
                 //字典项状态列表
@@ -184,6 +184,7 @@
                             this.dialogLoading = true;
                             updateDict(this.dictItemInfo).then(res => {
                                 if(res.success){
+                                    this.selectDictGroup();
                                     this.closeDialog();
                                     this.$emit('refreshQueryPage');
                                     this.$message({
@@ -200,6 +201,7 @@
                             this.dialogLoading = true;
                             insertDict(this.dictItemInfo).then(res => {
                                 if(res.success){
+                                    this.selectDictGroup();
                                     this.closeDialog();
                                     this.$emit('refreshQueryPage');
                                     this.$message({
@@ -231,7 +233,6 @@
             },
             //改变选择的字典组事件
             changeGroup(groupCode){
-                console.log(this.groupList);
                 let newGroupName = "";
                 for(let group of this.groupList){
                     if(group.groupCode === groupCode){

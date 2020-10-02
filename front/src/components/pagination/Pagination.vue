@@ -17,6 +17,12 @@
 <script>
     export default {
         name: 'pagination',
+        data(){
+            return {
+                //修改每页条数标识，因为在修改每页条数时，当前页码也会变化，为了防止触发当前页变化的事件，添加标识
+                changeSizeFlag: false,
+            }
+        },
         computed: {
             layout(){
                 let layout = 'prev, pager, next'
@@ -90,9 +96,16 @@
         },
         methods: {
             changePage(currentPage){
+                //如果标识为true,则认为本次事件为修改每页条数触发的，这次事件不应该发送出去，同时因为修改每页条数触发的时间应该只触发一次，所以可以将标识修改掉方便后续正常的时间触发
+                if(this.changeSizeFlag) {
+                    this.changeSizeFlag = !this.changeSizeFlag;
+                    return;
+                }
                 this.$emit('change-page',currentPage,this.pageSize)
             },
             changeSize(pageSize){
+                //如果当前页不为1时，因为现在要修改为1，所以设置标识，这样在触发changePage可以使其无效
+                if(this.pageNum !== 1)this.changeSizeFlag = true;
                 this.$emit('change-page',1,pageSize)
             }
         }

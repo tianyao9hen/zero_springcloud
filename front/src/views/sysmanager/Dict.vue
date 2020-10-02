@@ -35,30 +35,28 @@
                 <el-button class="el-icon-plus" type="primary" @click="insertDict">新 增</el-button>
             </div>
             <div slot="webTable">
-                <div class="loadDiv">
-                    <el-table :data="tableData.list" style="margin-bottom:20px" border>
-                        <el-table-column prop="groupCode" label="字典组编号"  align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="groupName" label="字典组名称"  align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="itemCode" label="字典项编号" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="itemName" label="字典项名称" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="statusStr" label="字典项状态" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="remarks" label="备注" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="createBy" label="创建人" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="createDate" label="创建时间" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="updateBy" label="修改人" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="updateDate" label="修改时间" align="center" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column label="操作" align="center" width="120px">
-                            <template slot-scope="scope">
-                                <el-button size="mini" type="text" @click="updateDict(scope.row)">
-                                    <i class="el-icon-edit">修改</i>
-                                </el-button>
-                                <el-button size="mini" type="text" @click="delDict(scope.row)">
-                                    <i class="el-icon-delete">删除</i>
-                                </el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </div>
+                <el-table :data="tableData.list" style="margin-bottom:20px" border>
+                    <el-table-column prop="groupCode" label="字典组编号"  align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="groupName" label="字典组名称"  align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="itemCode" label="字典项编号" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="itemName" label="字典项名称" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="statusStr" label="字典项状态" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="remarks" label="备注" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="createByName" label="创建人" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="createDate" label="创建时间" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="updateByName" label="修改人" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="updateDate" label="修改时间" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column label="操作" align="center" width="120px">
+                        <template slot-scope="scope">
+                            <el-button size="mini" type="text" @click="updateDict(scope.row)">
+                                <i class="el-icon-edit">修改</i>
+                            </el-button>
+                            <el-button size="mini" type="text" @click="delDict(scope.row)">
+                                <i class="el-icon-delete">删除</i>
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </div>
         </web-template>
 
@@ -138,10 +136,10 @@
                                 type: 'success',
                                 message: '删除成功!'
                             });
+                            this.queryPage();
                         }else{
                             this.$message.error(res.error);
                         }
-                        this.queryPage();
                     }).catch(err => {
                         this.tableLoading = false
                         this.$message.error(err.error);
