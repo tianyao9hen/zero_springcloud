@@ -173,6 +173,36 @@ export function queryPageRole(formData){
     })
 }
 
+//查询全部角色
+export function queryListRole(formData){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/role/queryList',
+            method: 'get',
+            params : formData
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//查询指定用户的角色
+export function queryListUserRole(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/role/queryListUserRole',
+            method: 'get',
+            params : data
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
 //新增角色
 export function insertRole(data){
     return new Promise((resolve,reject) => {
@@ -224,6 +254,81 @@ export function insertRoleAuth(data){
         request({
             url: '/role/insertRoleAuth',
             method: 'post',
+            data,
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//查询用户
+export function queryPageUser(formData){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/user/queryPage',
+            method: 'get',
+            params : formData
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//新增用户
+export function insertUser(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/user/insertUser',
+            method: 'post',
+            data,
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//新增用户角色
+export function insertUserRole(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/user/insertUserRole',
+            method: 'post',
+            data,
+        }).then(res => {
+            resolve(res);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+//修改用户
+export function updateUser(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/user/updateUser',
+            method: 'put',
+            data,
+        }).then(res => {
+            resolve(res)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+//删除用户
+export function delUser(data){
+    return new Promise((resolve,reject) => {
+        request({
+            url: '/user/delUser',
+            method: 'delete',
             data,
         }).then(res => {
             resolve(res);

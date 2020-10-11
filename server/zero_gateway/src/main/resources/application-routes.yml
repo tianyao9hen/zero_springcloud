@@ -12,6 +12,7 @@ spring:
           uri: lb://ZERO-AUTH
           predicates:
             - Path=/auth/**
+        # -- 系统管理 --
         # 数据字典
         - id: zero-system-dict
           uri: lb://ZERO-SYSTEM
@@ -27,3 +28,8 @@ spring:
           uri: lb://ZERO-SYSTEM
           predicates:
             - Path=/role/**
+        # 用户管理
+        - id: zero-system-user
+          uri: lb://ZERO-SYSTEM
+          predicates:
+            - Path=/user/**

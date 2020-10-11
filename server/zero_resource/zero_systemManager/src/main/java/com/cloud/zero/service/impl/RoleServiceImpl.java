@@ -3,6 +3,7 @@ package com.cloud.zero.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.cloud.zero.entities.auth.RoleAuthEntity;
 import com.cloud.zero.entities.auth.RoleEntity;
+import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.cloud.zero.mapper.RoleAuthMapper;
 import com.cloud.zero.mapper.RoleMapper;
@@ -55,6 +56,30 @@ public class RoleServiceImpl implements RoleService {
         List<RoleEntity> roleList = roleMapper.selectList(map);
         PageInfo<RoleEntity> pageInfo = new PageInfo<>(roleList);
         return pageInfo;
+    }
+
+    /**
+     * @Description 查询全部角色
+     * @Param roleEntity
+     * @Return java.util.List<com.cloud.zero.entities.auth.RoleEntity>
+     */
+    @Override
+    public List<RoleEntity> queryList(RoleEntity roleEntity) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("o",roleEntity);
+        return roleMapper.selectList(map);
+    }
+
+    /**
+     * @Description 查询指定用户的角色
+     * @Param userEntity
+     * @Return java.util.List<com.cloud.zero.entities.auth.RoleEntity>
+     */
+    @Override
+    public List<RoleEntity> queryListUserRole(SimpleUserEntity userEntity) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("o",userEntity);
+        return roleMapper.selectRoleByUser(map);
     }
 
     /**
@@ -151,6 +176,7 @@ public class RoleServiceImpl implements RoleService {
         Integer delResult = roleAuthMapper.delRoleAuth(roleEntity);
         //新增
         List<String> authIdList = roleEntity.getAuthIdList();
+        if(authIdList == null || authIdList.size() <= 0) return 1;
         List<RoleAuthEntity> roleAuthList = new ArrayList<>();
         for (String authId : authIdList) {
             RoleAuthEntity roleAuth = new RoleAuthEntity();
@@ -164,4 +190,5 @@ public class RoleServiceImpl implements RoleService {
         Integer insertResult = roleAuthMapper.insertRoleAuth(roleAuthList);
         return insertResult;
     }
+
 }

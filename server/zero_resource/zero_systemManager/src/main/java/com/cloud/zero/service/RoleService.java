@@ -1,11 +1,13 @@
 package com.cloud.zero.service;
 
 import com.cloud.zero.entities.auth.RoleEntity;
+import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.github.pagehelper.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * RuleService
@@ -25,4 +27,8 @@ public interface RoleService {
     Integer delRole(RoleEntity roleEntity,HttpServletRequest request) throws UnsupportedEncodingException;
 
     Integer insertRoleAuth(RoleEntity roleEntity, HttpServletRequest request) throws UnsupportedEncodingException;
+
+    List<RoleEntity> queryList(RoleEntity roleEntity);
+
+    List<RoleEntity> queryListUserRole(SimpleUserEntity userEntity);
 }

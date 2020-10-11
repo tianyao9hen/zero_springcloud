@@ -45,7 +45,11 @@ export default new Router({
                             component: resolve => require(['../views/sysmanager/RoleManage.vue'], resolve),
                             meta: {title: '角色管理'}
                         },
-
+                        {
+                            path: '/user',
+                            component: resolve => require(['../views/sysmanager/UserManage.vue'], resolve),
+                            meta: {title: '用户管理'}
+                        },
                         /*{
                             path: '/user',
                             component: resolve => require(['../views/sysmanager/user.vue'], resolve),

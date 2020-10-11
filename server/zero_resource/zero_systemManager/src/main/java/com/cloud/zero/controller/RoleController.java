@@ -1,6 +1,7 @@
 package com.cloud.zero.controller;
 
 import com.cloud.zero.entities.auth.RoleEntity;
+import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.cloud.zero.entities.common.ResultContent;
 import com.cloud.zero.enumType.FwWebError;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * RuleController
@@ -45,6 +47,39 @@ public class RoleController {
             pageEntity.setOrderBy(roleEntity.getOrderBy());
             PageInfo<RoleEntity> pageInfo = roleService.queryPage(roleEntity,pageEntity);
             resultContent.setResult(pageInfo);
+        }catch(Exception e){
+            log.error(e.getMessage(),e);
+            resultContent.setError(e);
+        }
+        return resultContent;
+    }
+
+    /**
+     * @Description 查询全部角色
+     * @Param roleEntity
+     * @Return com.cloud.zero.entities.common.ResultContent<java.util.List<com.cloud.zero.entities.auth.RoleEntity>>
+     */
+    @GetMapping("/queryList")
+    public ResultContent<List<RoleEntity>> queryList(RoleEntity roleEntity){
+        log.info("role-queryList");
+        ResultContent<List<RoleEntity>> resultContent = new ResultContent<>();
+        try{
+            List<RoleEntity> list = roleService.queryList(roleEntity);
+            resultContent.setResult(list);
+        }catch(Exception e){
+            log.error(e.getMessage(),e);
+            resultContent.setError(e);
+        }
+        return resultContent;
+    }
+
+    @GetMapping("/queryListUserRole")
+    public ResultContent<List<RoleEntity>> queryListUserRole(SimpleUserEntity userEntity){
+        log.info("role-queryListUserRole");
+        ResultContent<List<RoleEntity>> resultContent = new ResultContent<>();
+        try{
+            List<RoleEntity> list = roleService.queryListUserRole(userEntity);
+            resultContent.setResult(list);
         }catch(Exception e){
             log.error(e.getMessage(),e);
             resultContent.setError(e);

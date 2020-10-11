@@ -6,21 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * RoleAuthEntity
+ * UserRoleEntity
  *
  * @author pxf
  * @version v1.0
- * @Date 2020-10-10
+ * @Date 2020-10-11
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleAuthEntity extends CommonEntity {
+public class UserRoleEntity extends CommonEntity {
 
-    private static final long serialVersionUID = -4452352242205474125L;
+    private static final long serialVersionUID = -9124586723305405931L;
+
+    private String userId;
 
     private String roleId;
-
-    private String authorityId;
 }

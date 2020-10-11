@@ -5,7 +5,6 @@
     <resultMap id="baseEntity" type="com.cloud.zero.entities.auth.RoleEntity">
         <id column="ID" property="id"/>
         <result column="NAME" property="name"/>
-        <result column="DESC" property="desc"/>
         <result column="STATUS" property="status"/>
         <result column="CREATE_BY" property="createBy"/>
         <result column="CREATE_DATE" property="createDate"/>
@@ -18,7 +17,6 @@
     <sql id="columns">
         ID,
         NAME,
-        DESC,
         STATUS,
         CREATE_BY,
         CREATE_DATE,
@@ -31,7 +29,6 @@
     <sql id="rColumns">
         r.ID,
         r.NAME,
-        r.DESC,
         r.STATUS,
         r.CREATE_BY,
         r.CREATE_DATE,

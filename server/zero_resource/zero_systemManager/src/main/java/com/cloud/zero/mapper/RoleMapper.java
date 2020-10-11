@@ -50,4 +50,11 @@ public interface RoleMapper {
      * @Return java.lang.Integer
      */
     Integer delRole(RoleEntity roleEntity);
+
+    /**
+     * @Description 查询指定用户的角色
+     * @Param map
+     * @Return java.util.List<com.cloud.zero.entities.auth.RoleEntity>
+     */
+    List<RoleEntity> selectRoleByUser(Map<String, Object> map);
 }

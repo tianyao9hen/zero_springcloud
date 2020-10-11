@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cloud.zero.mapper.RoleMapper">
-
+<mapper namespace="com.cloud.zero.mapper.UserMapper">
     <sql id="columns">
         ID,
-        CODE,
+        USERNAME,
         NAME,
+        ORG_ID,
+        PHONE,
+        EMAIL,
         STATUS,
         CREATE_BY,
         CREATE_DATE,
@@ -18,8 +20,11 @@
 
     <sql id="tColumns">
         t.ID,
-        t.CODE,
+        t.USERNAME,
         t.NAME,
+        t.ORG_ID,
+        t.PHONE,
+        t.EMAIL,
         t.STATUS,
         t.CREATE_BY,
         t.CREATE_DATE,
@@ -29,10 +34,13 @@
         t.ACTIVE_FLAG
     </sql>
 
-    <resultMap id="baseEntity" type="com.cloud.zero.entities.auth.RoleEntity">
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.auth.SimpleUserEntity">
         <id column="ID" property="id"/>
-        <result column="CODE" property="code"/>
+        <result column="USERNAME" property="username"/>
         <result column="NAME" property="name"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="PHONE" property="phone"/>
+        <result column="EMAIL" property="email"/>
         <result column="STATUS" property="status"/>
         <result property="statusStr" column="STATUS_STR"/>
         <result property="remarks" column="REMARKS"/>
@@ -52,14 +60,14 @@
             ,u1.NAME AS CREATE_BY_NAME
             ,u2.NAME AS UPDATE_BY_NAME
             ,d1.ITEM_NAME AS STATUS_STR
-        FROM SYS_ROLE t
+        FROM SYS_USER t
         LEFT JOIN SYS_USER u1 ON u1.ACTIVE_FLAG = '1' AND u1.ID = t.CREATE_BY
         LEFT JOIN SYS_USER u2 ON u2.ACTIVE_FLAG = '1' AND u2.ID = t.UPDATE_BY
-        LEFT JOIN SYS_DICT d1 ON d1.ACTIVE_FLAG = '1' AND d1.GROUP_CODE = 'role_status' AND d1.ITEM_CODE = t.STATUS
+        LEFT JOIN SYS_DICT d1 ON d1.ACTIVE_FLAG = '1' AND d1.GROUP_CODE = 'user_status' AND d1.ITEM_CODE = t.STATUS
         <where>
             t.ACTIVE_FLAG = '1'
-            <if test="o.code != null and o.code != ''">
-                AND t.CODE = #{o.code}
+            <if test="o.username != null and o.username != ''">
+                AND t.USERNAME = #{o.username}
             </if>
             <if test="o.name != null and o.name != ''">
                 AND t.NAME LIKE '%${o.name}%'
@@ -69,37 +77,29 @@
             t.CREATE_DATE
     </select>
 
-    <!--根据code查询-->
-    <select id="selectRoleByCode" resultMap="baseEntity">
-        SELECT <include refid="tColumns"/>
-        FROM SYS_ROLE t
+    <!--根据用户账户查询-->
+    <select id="selectUserByUsername" resultMap="baseEntity">
+        SELECT
+            <include refid="columns"/>
+        FROM SYS_USER
         <where>
-            t.ACTIVE_FLAG = '1'
-            <if test="code != null and code != ''">
-                AND t.CODE = #{code}
+            ACTIVE_FLAG = '1'
+            <if test="username != null and username != ''">
+                AND USERNAME = #{username}
             </if>
         </where>
     </select>
 
-    <!--查询指定用户的角色-->
-    <select id="selectRoleByUser" resultMap="baseEntity">
-        SELECT <include refid="tColumns"/>
-        FROM SYS_ROLE t
-        LEFT JOIN SYS_USER_ROLE ur ON ur.ACTIVE_FLAG = '1' AND ur.ROLE_ID = t.ID
-        <where>
-            t.ACTIVE_FLAG = '1'
-            <if test="o.id != null and o.id != ''">
-                AND ur.USER_ID = #{o.id}
-            </if>
-        </where>
-    </select>
-
-    <!--新增角色-->
-    <insert id="insertRole">
-        INSERT INTO SYS_ROLE (
+    <!--新增用户-->
+    <insert id="insertUser">
+        INSERT INTO SYS_USER (
             ID,
-            CODE,
+            USERNAME,
+            PASSWORD,
             NAME,
+            ORG_ID,
+            PHONE,
+            EMAIL,
             STATUS,
             CREATE_BY,
             CREATE_DATE,
@@ -107,8 +107,12 @@
             ACTIVE_FLAG
         ) VALUES (
             #{id},
-            #{code},
+            #{username},
+            #{password},
             #{name},
+            #{orgId},
+            #{phone},
+            #{email},
             #{status},
             #{createBy},
             #{createDate},
@@ -117,15 +121,21 @@
         )
     </insert>
 
-    <!--修改角色-->
-    <update id="updateRole">
-        UPDATE SYS_ROLE
+    <!--修改用户-->
+    <update id="updateUser">
+        UPDATE SYS_USER
         <set>
-            <if test="code != null and code != ''">
-                CODE = #{code},
+            <if test="username != null and username != ''">
+                USERNAME = #{username},
             </if>
             <if test="name != null and name != ''">
                 NAME = #{name},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email},
             </if>
             <if test="status != null and status != ''">
                 STATUS = #{status},
@@ -149,9 +159,9 @@
         </where>
     </update>
 
-    <!--删除角色-->
-    <update id="delRole">
-        UPDATE SYS_ROLE
+    <!--删除用户-->
+    <update id="delUser">
+        UPDATE SYS_USER
         <set>
             ACTIVE_FLAG = '0',
             <if test="updateBy != null and updateBy != ''">
@@ -166,6 +176,4 @@
             AND ID = #{id}
         </where>
     </update>
-
-
 </mapper>

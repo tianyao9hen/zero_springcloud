@@ -38,8 +38,14 @@ public enum FwWebError {
     ROLE_NO_CODE("ROLE_E_01","角色编号不能为空"),
     ROLE_NO_NAME("ROLE_E_02","角色名称不能为空"),
     ROLE_REPEATED_CODE("ROLE_E_03","角色编号不能重复"),
-    ROLE_NO_ID("ROLE_E_04","角色ID不能为空");
+    ROLE_NO_ID("ROLE_E_04","角色ID不能为空"),
 
+    //user
+    USER_UNKOWN_EROR("ROLE_E_00","用户管理未知错误"),
+    USER_NO_USERNAME("ROLE_E_01","用户账户不能为空"),
+    USER_NO_NAME("ROLE_E_02","用户名称不能为空"),
+    USER_REPEATED_USERNAME("ROLE_E_03","用户账户重复"),
+    USER_NO_ID("USER_E_04","用户ID不能为空");
 
     public final String code;
     public final Object msg;

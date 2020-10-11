@@ -27,6 +27,8 @@ public class SimpleUserEntity extends CommonEntity {
 
     private String password;
 
+    private String name;
+
     private String orgId;
 
     private String phone;
@@ -35,7 +37,11 @@ public class SimpleUserEntity extends CommonEntity {
 
     private String status;
 
+    private String statusStr;
+
     private String token;
 
     private List<AuthorityEntity> authorities;
+
+    private List<String> roleIdList;
 }
