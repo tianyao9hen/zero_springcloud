@@ -1,6 +1,7 @@
 package com.cloud.zero.mapper;
 
 import com.cloud.zero.entities.auth.AuthorityEntity;
+import com.cloud.zero.entities.auth.RoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -50,4 +51,11 @@ public interface AuthorityMapper {
      * @Return java.lang.Integer
      */
     Integer updateAuth(AuthorityEntity authorityEntity);
+
+    /**
+     * @Description 查询角色权限
+     * @Param roleEntity
+     * @Return java.util.List<com.cloud.zero.entities.auth.AuthorityEntity>
+     */
+    List<AuthorityEntity> selectRoleAuth(RoleEntity roleEntity);
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * RoleEntity
  *
@@ -19,7 +21,9 @@ public class RoleEntity extends CommonEntity {
 
     private static final long serialVersionUID = -6248840735563386141L;
 
+    private String code;
     private String name;
-    private String desc;
     private String status;
+    private String statusStr;
+    private List<String> authIdList;
 }

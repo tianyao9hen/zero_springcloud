@@ -1,6 +1,7 @@
 package com.cloud.zero.service;
 
 import com.cloud.zero.entities.auth.AuthorityEntity;
+import com.cloud.zero.entities.auth.RoleEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,11 @@ public interface AuthorityService {
      * @Return java.lang.Integer
      */
     Integer updateAuth(AuthorityEntity authorityEntity, HttpServletRequest request) throws UnsupportedEncodingException;
+
+    /**
+     * @Description 查询角色权限
+     * @Param roleEntity
+     * @Return java.util.List<com.cloud.zero.entities.auth.AuthorityEntity>
+     */
+    List<AuthorityEntity> queryRoleAuth(RoleEntity roleEntity);
 }

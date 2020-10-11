@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.zero.mapper.RoleMapper">
+
+    <sql id="columns">
+        ID,
+        CODE,
+        NAME,
+        STATUS,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        REMARKS,
+        ACTIVE_FLAG
+    </sql>
+
+    <sql id="tColumns">
+        t.ID,
+        t.CODE,
+        t.NAME,
+        t.STATUS,
+        t.CREATE_BY,
+        t.CREATE_DATE,
+        t.UPDATE_BY,
+        t.UPDATE_DATE,
+        t.REMARKS,
+        t.ACTIVE_FLAG
+    </sql>
+
+    <resultMap id="baseEntity" type="com.cloud.zero.entities.auth.RoleEntity">
+        <id column="ID" property="id"/>
+        <result column="CODE" property="code"/>
+        <result column="NAME" property="name"/>
+        <result column="STATUS" property="status"/>
+        <result property="statusStr" column="STATUS_STR"/>
+        <result property="remarks" column="REMARKS"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createByName" column="CREATE_BY_NAME"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="updateBy" column="UPDATE_BY"/>
+        <result property="updateByName" column="UPDATE_BY_NAME"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="activeFlag" column="ACTIVE_FLAG"/>
+    </resultMap>
+
+    <!--查询-->
+    <select id="selectList" resultMap="baseEntity">
+        SELECT
+            <include refid="tColumns"/>
+            ,u1.NAME AS CREATE_BY_NAME
+            ,u2.NAME AS UPDATE_BY_NAME
+            ,d1.ITEM_NAME AS STATUS_STR
+        FROM SYS_ROLE t
+        LEFT JOIN SYS_USER u1 ON u1.ACTIVE_FLAG = '1' AND u1.ID = t.CREATE_BY
+        LEFT JOIN SYS_USER u2 ON u2.ACTIVE_FLAG = '1' AND u2.ID = t.UPDATE_BY
+        LEFT JOIN SYS_DICT d1 ON d1.ACTIVE_FLAG = '1' AND d1.GROUP_CODE = 'role_status' AND d1.ITEM_CODE = t.STATUS
+        <where>
+            t.ACTIVE_FLAG = '1'
+            <if test="o.code != null and o.code != ''">
+                AND t.CODE = #{o.code}
+            </if>
+            <if test="o.name != null and o.name != ''">
+                AND t.NAME LIKE '%${o.name}%'
+            </if>
+        </where>
+        ORDER BY
+            t.CREATE_DATE
+    </select>
+
+    <!--根据code查询-->
+    <select id="selectRoleByCode" resultMap="baseEntity">
+        SELECT <include refid="tColumns"/>
+        FROM SYS_ROLE t
+        <where>
+            t.ACTIVE_FLAG = '1'
+            <if test="code != null and code != ''">
+                AND t.CODE = #{code}
+            </if>
+        </where>
+    </select>
+
+    <!--新增角色-->
+    <insert id="insertRole">
+        INSERT INTO SYS_ROLE (
+            ID,
+            CODE,
+            NAME,
+            STATUS,
+            CREATE_BY,
+            CREATE_DATE,
+            REMARKS,
+            ACTIVE_FLAG
+        ) VALUES (
+            #{id},
+            #{code},
+            #{name},
+            #{status},
+            #{createBy},
+            #{createDate},
+            #{remarks},
+            "1"
+        )
+    </insert>
+
+    <!--修改角色-->
+    <update id="updateRole">
+        UPDATE SYS_ROLE
+        <set>
+            <if test="code != null and code != ''">
+                CODE = #{code},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="status != null and status != ''">
+                STATUS = #{status},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                UPDATE_BY = #{updateBy},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                REMARKS = #{remarks},
+            </if>
+            <if test="activeFlag != null and activeFlag != ''">
+                ACTIVE_FLAG = #{activeFlag},
+            </if>
+        </set>
+        <where>
+            ACTIVE_FLAG = '1'
+            AND ID = #{id}
+        </where>
+    </update>
+
+    <!--删除角色-->
+    <update id="delRole">
+        UPDATE SYS_ROLE
+        <set>
+            ACTIVE_FLAG = '0',
+            <if test="updateBy != null and updateBy != ''">
+                UPDATE_BY = #{updateBy},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate},
+            </if>
+        </set>
+        <where>
+            ACTIVE_FLAG = '1'
+            AND ID = #{id}
+        </where>
+    </update>
+
+
+</mapper>

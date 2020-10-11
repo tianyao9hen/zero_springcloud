@@ -99,6 +99,23 @@
             t.TYPE
     </select>
 
+    <!--查询角色权限-->
+    <select id="selectRoleAuth" resultMap="baseEntity">
+        SELECT
+        <include refid="tColumns"/>
+        FROM SYS_AUTHORITY t
+        LEFT JOIN SYS_ROLE_AUTHORITY ra ON ra.ACTIVE_FLAG = '1' AND ra.AUTHORITY_ID = t.ID
+        <where>
+            t.ACTIVE_FLAG = '1'
+            <if test="id != null and id != ''">
+                AND ra.ROLE_ID = #{id}
+            </if>
+        </where>
+        ORDER BY
+        t.SORT,
+        t.TYPE
+    </select>
+
     <!--查询可以作为父权限的权限列表-->
     <select id="selectListPAuth" resultMap="baseEntity">
         SELECT

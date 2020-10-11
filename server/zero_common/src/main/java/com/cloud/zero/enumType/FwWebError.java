@@ -31,7 +31,14 @@ public enum FwWebError {
     //authorty
     AUTH_UNKOWN_EROR("AUTHORITY_E_00","权限管理未知错误"),
     AUTH_REPEATED("AUTHORITY_E_O1","url重复"),
-    AUTH_UPDATE_NO_ID("AUTHORITY_E_02","修改权限未提供ID");
+    AUTH_UPDATE_NO_ID("AUTHORITY_E_02","修改权限未提供ID"),
+
+    //role
+    ROLE_UNKOWN_EROR("ROLE_E_00","角色管理未知错误"),
+    ROLE_NO_CODE("ROLE_E_01","角色编号不能为空"),
+    ROLE_NO_NAME("ROLE_E_02","角色名称不能为空"),
+    ROLE_REPEATED_CODE("ROLE_E_03","角色编号不能重复"),
+    ROLE_NO_ID("ROLE_E_04","角色ID不能为空");
 
 
     public final String code;

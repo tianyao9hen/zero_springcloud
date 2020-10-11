@@ -1,6 +1,7 @@
 package com.cloud.zero.controller;
 
 import com.cloud.zero.entities.auth.AuthorityEntity;
+import com.cloud.zero.entities.auth.RoleEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.cloud.zero.entities.common.ResultContent;
 import com.cloud.zero.entities.system.DictEntity;
@@ -47,6 +48,25 @@ public class   AuthorityController {
             pageEntity.setOrderBy(authorityEntity.getOrderBy());
             PageInfo<AuthorityEntity> pageInfo =  authorityService.queryPage(authorityEntity,pageEntity);
             resultContent.setResult(pageInfo);
+        }catch(Exception e){
+            log.error(e.getMessage(),e);
+            resultContent.setError(e);
+        }
+        return resultContent;
+    }
+
+    /**
+     * @Description 根据角色查询权限列表
+     * @Param roleEntity
+     * @Return com.cloud.zero.entities.common.ResultContent<java.util.List<com.cloud.zero.entities.auth.AuthorityEntity>>
+     */
+    @GetMapping("/queryRoleAuth")
+    public ResultContent<List<AuthorityEntity>> queryRoleAuth(RoleEntity roleEntity){
+        log.info("authority-queryRoleAuth");
+        ResultContent<List<AuthorityEntity>> resultContent = new ResultContent<>();
+        try{
+            List<AuthorityEntity> list = authorityService.queryRoleAuth(roleEntity);
+            resultContent.setResult(list);
         }catch(Exception e){
             log.error(e.getMessage(),e);
             resultContent.setError(e);

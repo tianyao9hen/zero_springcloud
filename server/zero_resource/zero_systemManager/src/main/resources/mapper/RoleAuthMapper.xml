@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.zero.mapper.RoleAuthMapper">
+
+    <sql id="columns">
+        ID,
+        ROLE_ID,
+        AUTHORITY_ID,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        REMARKS,
+        ACTIVE_FLAG
+    </sql>
+
+    <!--删除角色权限对应关系-->
+    <update id="delRoleAuth">
+        UPDATE SYS_ROLE_AUTHORITY
+        <set>
+            ACTIVE_FLAG = '0',
+            <if test="updateBy != null and updateBy != ''">
+                UPDATE_BY = #{updateBy},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate},
+            </if>
+        </set>
+        <where>
+            ACTIVE_FLAG = '1'
+            AND ROLE_ID = #{id}
+        </where>
+    </update>
+
+    <!--新增角色权限对应关系-->
+    <insert id="insertRoleAuth">
+        INSERT INTO SYS_ROLE_AUTHORITY
+        (
+            ID,
+            ROLE_ID,
+            AUTHORITY_ID,
+            CREATE_BY,
+            CREATE_DATE,
+            REMARKS,
+            ACTIVE_FLAG
+        ) VALUES
+        <foreach collection="list" separator="," index="index" item="item">
+            (
+                #{item.id},
+                #{item.roleId},
+                #{item.authorityId},
+                #{item.createBy},
+                #{item.createDate},
+                #{item.remarks},
+                '1'
+            )
+        </foreach>
+    </insert>
+</mapper>

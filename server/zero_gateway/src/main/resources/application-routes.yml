@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    gateway:
+      # 配置服务路由
+      routes:
+        - id: zero-resource # 路由的ID,没有固定规则但要求唯一，建议配合服务名
+          uri: lb://ZERO-RESOURCE # 匹配后提供服务的路由地址，设置的服务id 。lb指负载均衡，默认是轮询
+          predicates:
+            - Path=/res/** # Path： 路径相匹配的进行路由
+        # 鉴权模块
+        - id: zero-auth
+          uri: lb://ZERO-AUTH
+          predicates:
+            - Path=/auth/**
+        # 数据字典
+        - id: zero-system-dict
+          uri: lb://ZERO-SYSTEM
+          predicates:
+            - Path=/dict/**
+        # 权限模块
+        - id: zero-system-auth
+          uri: lb://ZERO-SYSTEM
+          predicates:
+            - Path=/authority/**
+        # 角色管理
+        - id: zero-system-role
+          uri: lb://ZERO-SYSTEM
+          predicates:
+            - Path=/role/**

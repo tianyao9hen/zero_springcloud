@@ -2,6 +2,7 @@ package com.cloud.zero.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.cloud.zero.entities.auth.AuthorityEntity;
+import com.cloud.zero.entities.auth.RoleEntity;
 import com.cloud.zero.entities.auth.SimpleUserEntity;
 import com.cloud.zero.entities.common.PageEntity;
 import com.cloud.zero.mapper.AuthorityMapper;
@@ -81,6 +82,17 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public List<AuthorityEntity> queryListPAuth() {
         List<AuthorityEntity> authorityList = authorityMapper.selectListPAuth();
+        return authorityList;
+    }
+
+    /**
+     * @Description 查询角色权限
+     * @Param roleEntity
+     * @Return java.util.List<com.cloud.zero.entities.auth.AuthorityEntity>
+     */
+    @Override
+    public List<AuthorityEntity> queryRoleAuth(RoleEntity roleEntity) {
+        List<AuthorityEntity> authorityList = authorityMapper.selectRoleAuth(roleEntity);
         return authorityList;
     }
 
